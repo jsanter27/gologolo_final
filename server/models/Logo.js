@@ -1,32 +1,33 @@
 var mongoose = require('mongoose');
 
-var TextSchema = new mongoose.Schema({
-  text: String,
-  color: String,
-  fontSize: Number,
-  positionX: Number,
-  positionY: Number,
-  rotation: Number
-});
+var LogoElementSchema = new mongoose.Schema({
+  type: String,
+  offsetLeft: Number,
+  offsetTop: Number,
 
-var ImageSchema = new mongoose.Schema({
+  // Applies for TEXTS
+  text: String,
+  fontSize: Number,
+
+  // Applies for IMAGES
   url: String,
-  positionX: Number,
-  positionY: Number,
-  scaleX: Number,
-  scaleY: Number,
-  rotation: Number
+  height: Number,
+  width: Number,
 })
 
 var LogoSchema = new mongoose.Schema({
   id: String,
   user: String,
-  texts: [TextSchema],
-  images: [ImageSchema],
+  name: String,
+  length: Number,
+  width: Number,
+  elements: [LogoElementSchema],
   backgroundColor: String,
   borderColor: String,
   borderRadius: Number,
   borderThickness: Number,
+  padding: Number,
+  margin: Number,
   lastUpdate: { type: Date, default: Date.now }
 });
 

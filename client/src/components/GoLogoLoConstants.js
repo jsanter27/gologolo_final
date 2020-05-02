@@ -1,9 +1,10 @@
 // CONSTANTS FOR THE DEFAULT LOGO VALUES AND THEIR RESPECTIVE MIN/MAXs
 export const LogoDefaults = {
+    LENGTH = "400",
+    WIDTH = "800",
+    
     TEXT_VALUE: "goLogoLo Logo",
-
     TEXT_COLOR: "#FF0000",
-
     FONT_SIZE: "24",
     FONT_SIZE_MIN: "4",
     FONT_SIZE_MAX: "100",
