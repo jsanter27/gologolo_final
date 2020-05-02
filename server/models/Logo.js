@@ -1,16 +1,32 @@
 var mongoose = require('mongoose');
 
+var TextSchema = new mongoose.Schema({
+  text: String,
+  color: String,
+  fontSize: Number,
+  positionX: Number,
+  positionY: Number,
+  rotation: Number
+});
+
+var ImageSchema = new mongoose.Schema({
+  url: String,
+  positionX: Number,
+  positionY: Number,
+  scaleX: Number,
+  scaleY: Number,
+  rotation: Number
+})
+
 var LogoSchema = new mongoose.Schema({
   id: String,
-  text: { type: String, default: "goLogoLo Logo" },
-  color: { type: String, default: "#FF0000" },
-  fontSize: { type: Number, min: 4, max: 100, default: 24 },
-  backgroundColor: { type: String, default: "#FFFFFF" },
-  borderColor: { type: String, default: "#000000" },
-  borderRadius: { type: Number, min: 0, max: 24, default: 12 },
-  borderThickness: { type: Number, min: 0, max: 48, default: 12 },
-  padding: { type: Number, min: 0, max: 100, default: 12},
-  margin: { type: Number, min: 0, max: 100, default: 0},
+  user: String,
+  texts: [TextSchema],
+  images: [ImageSchema],
+  backgroundColor: String,
+  borderColor: String,
+  borderRadius: Number,
+  borderThickness: Number,
   lastUpdate: { type: Date, default: Date.now }
 });
 
