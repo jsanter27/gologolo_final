@@ -1,11 +1,12 @@
 import { LogoDefaults } from '../components/GoLogoLoConstants';
+import { LogoElement } from './LogoElement';
 
 class Logo {
     constructor(){
         this.name = LogoDefaults.TEXT_VALUE;
         this.length = LogoDefaults.LENGTH;
         this.width = LogoDefaults.WIDTH;
-        this.elements = [];
+        this.elements = [LogoElement];
         this.backgroundColor = LogoDefaults.BACKGROUND_COLOR;
         this.borderColor = LogoDefaults.BORDER_COLOR;
         this.borderRadius = LogoDefaults.BORDER_RADIUS;
@@ -59,4 +60,14 @@ class Logo {
         }
         return;
     }
+
+    removeElement(element){
+        if (!element){
+            return;
+        }
+
+        this.elements = this.elements.filter((e) => e != element);
+    }
 }
+
+export default Logo;

@@ -2,19 +2,27 @@ var GraphQLSchema = require('graphql').GraphQLSchema;
 var GraphQLObjectType = require('graphql').GraphQLObjectType;
 var GraphQLList = require('graphql').GraphQLList;
 var GraphQLObjectType = require('graphql').GraphQLObjectType;
+var GraphQLInputObjectType = require('graphql').GraphQLInputObjectType;
 var GraphQLNonNull = require('graphql').GraphQLNonNull;
+var GraphQLNull = require('graphql').GraphQLNull;
 var GraphQLID = require('graphql').GraphQLID;
 var GraphQLString = require('graphql').GraphQLString;
 var GraphQLInt = require('graphql').GraphQLInt;
 var GraphQLDate = require('graphql-date');
 var LogoModel = require('../models/Logo');
 
-var logoType = new GraphQLObjectType({
-    name: 'logo',
+var logoElementType = new GraphQLObjectType({
+    name: 'logoElement',
     fields: function () {
         return {
-            _id: {
+            elementType: {
                 type: GraphQLString
+            },
+            offsetLeft: {
+                type: GraphQLInt
+            },
+            offsetTop: {
+                type: GraphQLInt
             },
             text: {
                 type: GraphQLString
@@ -24,6 +32,76 @@ var logoType = new GraphQLObjectType({
             },
             fontSize: {
                 type: GraphQLInt
+            },
+            url: {
+                type: GraphQLString
+            },
+            length: {
+                type: GraphQLInt
+            },
+            width: {
+                type: GraphQLInt
+            }
+        }
+    }
+});
+
+const logoElementInput = new GraphQLInputObjectType({
+    name: 'logoElementInput',
+    fields: function () {
+        return {
+            elementType: {
+                type: GraphQLNonNull(GraphQLString)
+            },
+            offsetLeft: {
+                type: GraphQLNonNull(GraphQLInt)
+            },
+            offsetTop: {
+                type: GraphQLNonNull(GraphQLInt)
+            },
+            text: {
+                type: GraphQLString
+            },
+            color: {
+                type: GraphQLString
+            },
+            fontSize: {
+                type: GraphQLInt
+            },
+            url: {
+                type: GraphQLString
+            },
+            length: {
+                type: GraphQLInt
+            },
+            width: {
+                type: GraphQLInt
+            }
+        }
+    }
+});
+
+var logoType = new GraphQLObjectType({
+    name: 'logo',
+    fields: function () {
+        return {
+            _id: {
+                type: GraphQLString
+            },
+            user: {
+                type: GraphQLString
+            },
+            name: {
+                type: GraphQLString
+            },
+            length: {
+                type: GraphQLInt
+            },
+            width: {
+                type: GraphQLInt
+            },
+            elements: {
+                type: GraphQLList(logoElementType)
             },
             backgroundColor: {
                 type: GraphQLString
@@ -50,11 +128,31 @@ var logoType = new GraphQLObjectType({
     }
 });
 
+var deleteInfo = new GraphQLObjectType({
+    name: "deleteInfo",
+    fields: function () {
+        return {
+            n: {
+                name: "n",
+                type: GraphQLInt
+            },
+            ok: {
+                name: "ok",
+                type: GraphQLInt
+            },
+            deletedCount: {
+                name: "deletedCount",
+                type: GraphQLInt
+            }
+        }
+    }
+});
+
 var queryType = new GraphQLObjectType({
     name: 'Query',
     fields: function () {
         return {
-            logos: {
+            getAllLogos: {
                 type: new GraphQLList(logoType),
                 resolve: function () {
                     const logos = LogoModel.find().exec()
@@ -64,7 +162,22 @@ var queryType = new GraphQLObjectType({
                     return logos
                 }
             },
-            logo: {
+            getUserLogos: {
+                type: new GraphQLList(logoType),
+                args: {
+                    user: {
+                        type: GraphQLString
+                    }
+                },
+                resolve: function (root, params) {
+                    const logos = LogoModel.find({ user: params.user }).exec()
+                    if (!logos) {
+                        throw new Error('Error')
+                    }
+                    return logos
+                }
+            },
+            getLogoByID: {
                 type: logoType,
                 args: {
                     id: {
@@ -91,14 +204,20 @@ var mutation = new GraphQLObjectType({
             addLogo: {
                 type: logoType,
                 args: {
-                    text: {
+                    user: {
                         type: new GraphQLNonNull(GraphQLString)
                     },
-                    color: {
+                    name: {
                         type: new GraphQLNonNull(GraphQLString)
                     },
-                    fontSize: {
+                    length: {
                         type: new GraphQLNonNull(GraphQLInt)
+                    },
+                    width: {
+                        type: new GraphQLNonNull(GraphQLInt)
+                    },
+                    elements: {
+                        type: new GraphQLList(logoElementInput)
                     },
                     backgroundColor: {
                         type: new GraphQLNonNull(GraphQLString)
@@ -135,14 +254,20 @@ var mutation = new GraphQLObjectType({
                         name: 'id',
                         type: new GraphQLNonNull(GraphQLString)
                     },
-                    text: {
+                    user: {
                         type: new GraphQLNonNull(GraphQLString)
                     },
-                    color: {
+                    name: {
                         type: new GraphQLNonNull(GraphQLString)
                     },
-                    fontSize: {
+                    length: {
                         type: new GraphQLNonNull(GraphQLInt)
+                    },
+                    width: {
+                        type: new GraphQLNonNull(GraphQLInt)
+                    },
+                    elements: {
+                        type: new GraphQLList(logoElementInput)
                     },
                     backgroundColor: {
                         type: new GraphQLNonNull(GraphQLString)
@@ -164,9 +289,9 @@ var mutation = new GraphQLObjectType({
                     }
                 },
                 resolve(root, params) {
-                    return LogoModel.findByIdAndUpdate(params.id, { text: params.text, color: params.color, fontSize: params.fontSize, backgroundColor: params.backgroundColor, 
-                        borderColor: params.borderColor, borderRadius: params.borderRadius, borderThickness: params.borderThickness, padding: params.padding, 
-                        margin: params.margin, lastUpdate: new Date() }, 
+                    return LogoModel.findByIdAndUpdate(params.id, { user: params.user, name: params.name, length: params.length, width: params.width, elements: params.elements,
+                        backgroundColor: params.backgroundColor, borderColor: params.borderColor, borderRadius: params.borderRadius, borderThickness: 
+                        params.borderThickness, padding: params.padding, margin: params.margin, lastUpdate: new Date() }, 
                         function (err) {
                             if (err) return next(err);
                     });
@@ -185,6 +310,16 @@ var mutation = new GraphQLObjectType({
                         throw new Error('Error')
                     }
                     return remLogo;
+                }
+            },
+            removeAllLogos: { 
+                type: deleteInfo,
+                resolve: function () {
+                    const details = LogoModel.deleteMany({}, {});
+                    if (!details) {
+                        throw new Error('Error')
+                    }
+                    return details
                 }
             }
         }

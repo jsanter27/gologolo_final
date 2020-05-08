@@ -1,17 +1,18 @@
 var mongoose = require('mongoose');
 
 var LogoElementSchema = new mongoose.Schema({
-  type: String,
+  elementType: String,
   offsetLeft: Number,
   offsetTop: Number,
 
   // Applies for TEXTS
   text: String,
+  color: String,
   fontSize: Number,
 
   // Applies for IMAGES
   url: String,
-  height: Number,
+  length: Number,
   width: Number,
 })
 
