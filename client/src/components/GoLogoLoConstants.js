@@ -26,9 +26,9 @@ export const LogoDefaults = {
 
 // CONSTANTS FOR LOGOELEMENTS
 export const LogoElementDefaults = {
-    OFFSET_LEFT = 0,
-    OFFSET_TOP = 0,
-    LogoText = {
+    OFFSET_LEFT: 0,
+    OFFSET_TOP: 0,
+    LogoText: {
         TYPE: "Text",
         TEXT: "goLogoLo Logo",
         COLOR: "#FF0000",
@@ -36,7 +36,7 @@ export const LogoElementDefaults = {
         FONT_SIZE_MIN: 4,
         FONT_SIZE_MAX: 100
     },
-    LogoImage = {
+    LogoImage: {
         TYPE: "Image",
         URL: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/SNice.svg/1920px-SNice.svg.png",
         LENGTH: 1200,
