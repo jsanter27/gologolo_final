@@ -22,7 +22,7 @@ class LoginScreen extends Component{
         if (this.state.username.trim() === ""){
             return;
         }
-        this.props.history.push("/user/" + this.state.username);
+        this.props.history.push("/" + this.state.username);
     }
 
     render(){

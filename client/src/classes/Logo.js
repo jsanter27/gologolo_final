@@ -1,20 +1,19 @@
-import { LogoDefaults } from '../components/GoLogoLoConstants';
-import { LogoElement } from './LogoElement';
 
-class Logo {
-    constructor(){
-        this.name = LogoDefaults.TEXT_VALUE;
-        this.length = LogoDefaults.LENGTH;
-        this.width = LogoDefaults.WIDTH;
-        this.elements = [LogoElement];
-        this.backgroundColor = LogoDefaults.BACKGROUND_COLOR;
-        this.borderColor = LogoDefaults.BORDER_COLOR;
-        this.borderRadius = LogoDefaults.BORDER_RADIUS;
-        this.borderThickness = LogoDefaults.BORDER_THICKNESS;
-        this.padding = LogoDefaults.PADDING;
-        this.margin = LogoDefaults.MARGIN;
+export class Logo {
+    constructor(name, length, width, elements, backgroundColor, borderColor, borderRadius, borderThickness, padding, margin){
+        this.name = name;
+        this.length = length;
+        this.width = width;
+        this.elements = elements;
+        this.backgroundColor = backgroundColor;
+        this.borderColor = borderColor;
+        this.borderRadius = borderRadius;
+        this.borderThickness = borderThickness;
+        this.padding = padding;
+        this.margin = margin;
     }
 
+    /*
     addElementToBottom(element){
         if (!element){
             return;
@@ -68,6 +67,5 @@ class Logo {
 
         this.elements = this.elements.filter((e) => e != element);
     }
+    */
 }
-
-export default Logo;

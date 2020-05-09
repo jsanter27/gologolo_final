@@ -1,6 +1,6 @@
 import { LogoElementDefaults } from '../components/GoLogoLoConstants';
 
-class LogoElement {
+export class LogoElement {
     constructor(elementType){
         this.elementType = elementType;
         this.offsetLeft = LogoElementDefaults.OFFSET_LEFT;
@@ -19,6 +19,24 @@ class LogoElement {
             throw new Error("Invalid Logo Element Type");
         }
     }
-}
 
-export default LogoElement;
+    static createLogoText(offsetLeft, offsetTop, text, color, fontSize){
+        let element = new LogoElement(LogoElementDefaults.LogoText.TYPE);
+        element.offsetLeft = offsetLeft;
+        element.offsetTop = offsetTop;
+        element.text = text;
+        element.color = color;
+        element.fontSize = fontSize;
+        return element;
+    }
+
+    static createLogoImage(offsetLeft, offsetTop, url, length, width){
+        let element = new LogoElement(LogoElementDefaults.LogoImage.TYPE);
+        element.offsetLeft = offsetLeft;
+        element.offsetTop = offsetTop;
+        element.url = url;
+        element.length = length;
+        element.width = width;
+        return element;
+    }
+}

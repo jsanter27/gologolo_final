@@ -4,33 +4,52 @@ import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 
 const GET_LOGOS = gql`
-  {
-    logos {
-      _id
-      text
-      lastUpdate
+    query getUserLogos($logoUser: String){
+        getUserLogos(user: $logoUser){
+            _id
+            user
+            name
+            length
+            width
+            elements{
+                elementType
+                offsetLeft
+                offsetTop
+                text
+                color
+                fontSize
+                url
+                length
+                width
+            }
+            backgroundColor
+            borderColor
+            borderRadius
+            borderThickness
+            padding
+            margin
+            lastUpdate
+        }
     }
-  }
 `;
 
 class HomeScreen extends Component {
 
     render() {
         return (
-            <Query fetchPolicy={"network-only"} pollInterval={250} query={GET_LOGOS}>
+            <Query fetchPolicy={"network-only"} pollInterval={250} query={GET_LOGOS} variables={{ logoUser: this.props.match.params.username}}>
                 {({ loading, error, data }) => {
                     if (loading) return 'Loading...';
                     if (error) return `Error! ${error.message}`;
-
                     return (
                         <div className="container row">
                             <div className="col s4" style={{textAlign:"right"}}>
                                 <h3>Recent Work</h3>
                                 {/*Sort the Logos by Last Update Here*/}
-                                {data.logos.sort((a, b) => b.lastUpdate > a.lastUpdate).map((logo, index) => (
+                                {data.getUserLogos.sort((a, b) => b.lastUpdate > a.lastUpdate).map((logo, index) => (
                                     <div key={index} className='home_logo_link'
                                         style={{ cursor: "pointer" }}>
-                                        <button className="btn btn-secondary" style={{marginBottom:"8pt"}} onClick={() => this.props.history.push("/view/"+logo._id)}>{logo.text}</button>
+                                        <button className="btn btn-secondary" style={{marginBottom:"8pt"}} onClick={() => this.props.history.push(this.props.match.params.username + "/view/" + logo._id)}>{logo.name}</button>
                                     </div>
                                 ))}
                             </div>
@@ -39,7 +58,7 @@ class HomeScreen extends Component {
                                     goLogoLo
                                 </div>
                                 <div style={{textAlign:"center", marginTop:"12pt"}}>
-                                    <button className="btn btn-success" onClick={() => this.props.history.push("/create")}>Add Logo</button>
+                                    <button className="btn btn-success" onClick={() => this.props.history.push("/" + this.props.match.params.username + "/create")}>Add Logo</button>
                                 </div>
                             </div>
                         </div>

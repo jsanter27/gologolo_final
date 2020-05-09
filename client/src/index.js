@@ -20,10 +20,10 @@ ReactDOM.render(
         <Router>
             <div>
                 <Route exact path='/' component={LoginScreen} />
-                <Route path='/user/:username' component={HomeScreen} />
-                <Route path='/user/:username/edit/:id' component={EditLogoScreen} />
-                <Route path='/user/:username/create' component={CreateLogoScreen} />
-                <Route path='/user/:username/view/:id' component={ViewLogoScreen} />
+                <Route exact path='/:username/edit/:id' component={EditLogoScreen} />
+                <Route exact path='/:username/create' component={CreateLogoScreen} />
+                <Route exact path='/:username/view/:id' component={ViewLogoScreen} />
+                <Route exact path='/:username' component={HomeScreen} />
             </div>
         </Router>
     </ApolloProvider>, 
