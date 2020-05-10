@@ -3,6 +3,7 @@ import gql from "graphql-tag";
 import { Query, Mutation } from "react-apollo";
 import LogoWorkspace from './LogoWorkspace';
 import { LogoDefaults } from './GoLogoLoConstants';
+import { Logo } from '../classes/Logo';
 
 const GET_LOGO = gql`
     query logo($logoId: String) {
@@ -77,152 +78,197 @@ class EditLogoScreen extends Component {
 
     // EVENT HANDLERS
 
-    handleChangeText = (event) => {
+    handleChangeName = (event) => {
+        let newLogo = new Logo(
+            event.target.value,
+            this.state.logo.length,
+            this.state.logo.width,
+            this.state.logo.elements,
+            this.state.logo.backgroundColor,
+            this.state.logo.borderColor,
+            this.state.logo.borderRadius,
+            this.state.logo.borderThickness,
+            this.state.logo.padding,
+            this.state.logo.margin
+        );
         this.setState({
             id : this.state.id,
-            text : event.target.value,
-            color : this.state.color,
-            fontSize : this.state.fontSize,
-            backgroundColor : this.state.backgroundColor,
-            borderColor : this.state.borderColor,
-            borderRadius : this.state.borderRadius,
-            borderThickness : this.state.borderThickness,
-            padding : this.state.padding,
-            margin : this.state.margin,
+            user : this.state.user,
+            logo : newLogo,
             initialized : this.state.initialized
         });
     }
 
-    handleChangeColor = (event) => {
+    handleChangeLength = (event) => {
+        let newLogo = new Logo(
+            this.state.logo.name,
+            event.target.value,
+            this.state.logo.width,
+            this.state.logo.elements,
+            this.state.logo.backgroundColor,
+            this.state.logo.borderColor,
+            this.state.logo.borderRadius,
+            this.state.logo.borderThickness,
+            this.state.logo.padding,
+            this.state.logo.margin
+        );
         this.setState({
             id : this.state.id,
-            text : this.state.text,
-            color : event.target.value,
-            fontSize : this.state.fontSize,
-            backgroundColor : this.state.backgroundColor,
-            borderColor : this.state.borderColor,
-            borderRadius : this.state.borderRadius,
-            borderThickness : this.state.borderThickness,
-            padding : this.state.padding,
-            margin : this.state.margin,
+            user : this.state.user,
+            logo : newLogo,
             initialized : this.state.initialized
         });
     }
 
-    handleChangeFontSize = (event) => {
+    handleChangeWidth = (event) => {
+        let newLogo = new Logo(
+            this.state.logo.name,
+            this.state.logo.length,
+            event.target.value,
+            this.state.logo.elements,
+            this.state.logo.backgroundColor,
+            this.state.logo.borderColor,
+            this.state.logo.borderRadius,
+            this.state.logo.borderThickness,
+            this.state.logo.padding,
+            this.state.logo.margin
+        );
         this.setState({
             id : this.state.id,
-            text : this.state.text,
-            color : this.state.color,
-            fontSize : event.target.value,
-            backgroundColor : this.state.backgroundColor,
-            borderColor : this.state.borderColor,
-            borderRadius : this.state.borderRadius,
-            borderThickness : this.state.borderThickness,
-            padding : this.state.padding,
-            margin : this.state.margin,
+            user : this.state.user,
+            logo : newLogo,
             initialized : this.state.initialized
         });
     }
 
     handleChangeBackgroundColor = (event) => {
+        let newLogo = new Logo(
+            this.state.logo.name,
+            this.state.logo.length,
+            this.state.logo.width,
+            this.state.logo.elements,
+            event.target.value,
+            this.state.logo.borderColor,
+            this.state.logo.borderRadius,
+            this.state.logo.borderThickness,
+            this.state.logo.padding,
+            this.state.logo.margin
+        );
         this.setState({
             id : this.state.id,
-            text : this.state.text,
-            color : this.state.color,
-            fontSize : this.state.fontSize,
-            backgroundColor : event.target.value,
-            borderColor : this.state.borderColor,
-            borderRadius : this.state.borderRadius,
-            borderThickness : this.state.borderThickness,
-            padding : this.state.padding,
-            margin : this.state.margin,
+            user : this.state.user,
+            logo : newLogo,
             initialized : this.state.initialized
         });
     }
 
     handleChangeBorderColor = (event) => {
+        let newLogo = new Logo(
+            this.state.logo.name,
+            this.state.logo.length,
+            this.state.logo.width,
+            this.state.logo.elements,
+            this.state.logo.backgroundColor,
+            event.target.value,
+            this.state.logo.borderRadius,
+            this.state.logo.borderThickness,
+            this.state.logo.padding,
+            this.state.logo.margin
+        );
         this.setState({
             id : this.state.id,
-            text : this.state.text,
-            color : this.state.color,
-            fontSize : this.state.fontSize,
-            backgroundColor : this.state.backgroundColor,
-            borderColor : event.target.value,
-            borderRadius : this.state.borderRadius,
-            borderThickness : this.state.borderThickness,
-            padding : this.state.padding,
-            margin : this.state.margin,
+            user : this.state.user,
+            logo : newLogo,
             initialized : this.state.initialized
         });
     }
 
     handleChangeBorderRadius = (event) => {
+        let newLogo = new Logo(
+            this.state.logo.name,
+            this.state.logo.length,
+            this.state.logo.width,
+            this.state.logo.elements,
+            this.state.logo.backgroundColor,
+            this.state.logo.borderColor,
+            event.target.value,
+            this.state.logo.borderThickness,
+            this.state.logo.padding,
+            this.state.logo.margin
+        );
         this.setState({
             id : this.state.id,
-            text : this.state.text,
-            color : this.state.color,
-            fontSize : this.state.fontSize,
-            backgroundColor : this.state.backgroundColor,
-            borderColor : this.state.borderColor,
-            borderRadius : event.target.value,
-            borderThickness : this.state.borderThickness,
-            padding : this.state.padding,
-            margin : this.state.margin,
+            user : this.state.user,
+            logo : newLogo,
             initialized : this.state.initialized
         });
     }
 
     handleChangeBorderThickness = (event) => {
+        let newLogo = new Logo(
+            this.state.logo.name,
+            this.state.logo.length,
+            this.state.logo.width,
+            this.state.logo.elements,
+            this.state.logo.backgroundColor,
+            this.state.logo.borderColor,
+            this.state.logo.borderRadius,
+            event.target.value,
+            this.state.logo.padding,
+            this.state.logo.margin
+        );
         this.setState({
             id : this.state.id,
-            text : this.state.text,
-            color : this.state.color,
-            fontSize : this.state.fontSize,
-            backgroundColor : this.state.backgroundColor,
-            borderColor : this.state.borderColor,
-            borderRadius : this.state.borderRadius,
-            borderThickness : event.target.value,
-            padding : this.state.padding,
-            margin : this.state.margin,
+            user : this.state.user,
+            logo : newLogo,
             initialized : this.state.initialized
         });
     }
 
     handleChangePadding = (event) => {
+        let newLogo = new Logo(
+            this.state.logo.name,
+            this.state.logo.length,
+            this.state.logo.width,
+            this.state.logo.elements,
+            this.state.logo.backgroundColor,
+            this.state.logo.borderColor,
+            this.state.logo.borderRadius,
+            this.state.logo.borderThickness,
+            event.target.value,
+            this.state.logo.margin
+        );
         this.setState({
             id : this.state.id,
-            text : this.state.text,
-            color : this.state.color,
-            fontSize : this.state.fontSize,
-            backgroundColor : this.state.backgroundColor,
-            borderColor : this.state.borderColor,
-            borderRadius : this.state.borderRadius,
-            borderThickness : this.state.borderThickness,
-            padding : event.target.value,
-            margin : this.state.margin,
+            user : this.state.user,
+            logo : newLogo,
             initialized : this.state.initialized
         });
     }
 
     handleChangeMargin = (event) => {
+        let newLogo = new Logo(
+            this.state.logo.name,
+            this.state.logo.length,
+            this.state.logo.width,
+            this.state.logo.elements,
+            this.state.logo.backgroundColor,
+            this.state.logo.borderColor,
+            this.state.logo.borderRadius,
+            this.state.logo.borderThickness,
+            this.state.logo.padding,
+            event.target.value
+        );
         this.setState({
             id : this.state.id,
-            text : this.state.text,
-            color : this.state.color,
-            fontSize : this.state.fontSize,
-            backgroundColor : this.state.backgroundColor,
-            borderColor : this.state.borderColor,
-            borderRadius : this.state.borderRadius,
-            borderThickness : this.state.borderThickness,
-            padding : this.state.padding,
-            margin : event.target.value,
+            user : this.state.user,
+            logo : newLogo,
             initialized : this.state.initialized
         });
     }
 
     render() {
-        let text, color, fontSize, backgroundColor, borderColor, borderRadius, borderThickness, padding, margin;
+        let name, length, width, backgroundColor, borderColor, borderRadius, borderThickness, padding, margin;
 
         return (
             /*SKIP PROPERTY ALLOWS THE LOGO TO ONLY BE QUERIED ONCE TO AVOID THE PAGE RELOADING REPEATEDLY*/
@@ -234,29 +280,34 @@ class EditLogoScreen extends Component {
                     // USING THE STATE ALLOWS THE LOGO TO BE CHANGED LOCALLY UNTIL THE SUBMIT BUTTON IS PRESSED
                     // SUBMITTING THEN UPDATES THE LOGO IN THE DB
                     if (!this.state.initialized){
+                        let newLogo = new Logo(
+                            data.getLogoByID.name,
+                            data.getLogoByID.length,
+                            data.getLogoByID.width,
+                            data.getLogoByID.elements,
+                            data.getLogoByID.backgroundColor,
+                            data.getLogoByID.borderColor,
+                            data.getLogoByID.borderRadius,
+                            data.getLogoByID.borderThickness,
+                            data.getLogoByID.padding,
+                            data.getLogoByID.margin
+                        );
                         this.setState({
-                            id : data.logo._id,
-                            text : data.logo.text,
-                            color : data.logo.color,
-                            fontSize : data.logo.fontSize,
-                            backgroundColor : data.logo.backgroundColor,
-                            borderColor : data.logo.borderColor,
-                            borderRadius : data.logo.borderRadius,
-                            borderThickness : data.logo.borderThickness,
-                            padding : data.logo.padding,
-                            margin : data.logo.margin,
+                            id : data.getLogoByID._id,
+                            user : data.getLogoByID.user,
+                            logo : newLogo,
                             initialized : true
                         })
                     }
 
                     // IF TEXT IS EMPTY, PREVENT SUBMIT
                     let buttonDisabled = false;
-                    if (this.state.initialized && this.state.text.trim() === ""){
+                    if (this.state.initialized && this.state.logo.name.trim() === ""){
                         buttonDisabled = true;
                     }
 
                     return (
-                        <Mutation mutation={UPDATE_LOGO} key={this.state.id} onCompleted={() => this.props.history.push(`/view/`+this.state.id)}>
+                        <Mutation mutation={UPDATE_LOGO} key={this.state.id} onCompleted={() => this.props.history.push(this.props.match.params.username+"/view/"+this.state.id)}>
                             {(updateLogo, { loading, error }) => (
                                 <div className="container">
                                     <div className="panel panel-default">
@@ -264,96 +315,89 @@ class EditLogoScreen extends Component {
                                             <div className="panel-body" style={{marginTop:"36pt"}}>                                            
                                                 <form onSubmit={e => {
                                                     e.preventDefault();
-                                                    updateLogo({ variables: { id: this.state.id, text: text.value, color: color.value, fontSize: parseInt(fontSize.value),
-                                                        backgroundColor: backgroundColor.value, borderColor: borderColor.value, borderRadius: parseInt(borderRadius.value),
+                                                    updateLogo({ variables: { id: this.state.id, user: this.state.user, name: name.value, length: parseInt(length.value), width: parseInt(width.value),
+                                                        elements: this.state.logo.elements, backgroundColor: backgroundColor.value, borderColor: borderColor.value, borderRadius: parseInt(borderRadius.value),
                                                         borderThickness: parseInt(borderThickness.value), padding: parseInt(padding.value), margin: parseInt(margin.value) } });
-                                                    text.value = this.state.text;
-                                                    color.value = this.state.color;
-                                                    fontSize.value = this.state.fontSize;
-                                                    backgroundColor.value = this.state.backgroundColor;
-                                                    borderColor.value = this.state.borderColor;
-                                                    borderRadius.value = this.state.borderRadius;
-                                                    borderThickness.value = this.state.borderThickness;
-                                                    padding.value = this.state.padding;
-                                                    margin.value = this.state.margin;
+                                                    name.value = this.state.logo.name;
+                                                    length.value = this.state.logo.length;
+                                                    width.value = this.state.logo.width;
+                                                    backgroundColor.value = this.state.logo.backgroundColor;
+                                                    borderColor.value = this.state.logo.borderColor;
+                                                    borderRadius.value = this.state.logo.borderRadius;
+                                                    borderThickness.value = this.state.logo.borderThickness;
+                                                    padding.value = this.state.logo.padding;
+                                                    margin.value = this.state.logo.margin;
                                                 }}>
                                                     <div className="form-group">
-                                                        <label htmlFor="text">Text:</label>
-                                                        <input type="text" className="form-control" name="text" ref={node => {
-                                                            text = node;
-                                                        }} placeholder="Text" value={this.state.text} onChange={this.handleChangeText} />
+                                                        <label htmlFor="name">Name:</label>
+                                                        <input type="text" className="form-control" name="name" ref={node => {
+                                                            name = node;
+                                                        }} placeholder="Name" value={this.state.logo.name} onChange={this.handleChangeName} />
                                                     </div>
                                                     <div className="form-group">
-                                                        <label htmlFor="color">Color:</label>
-                                                        <input type="color" className="form-control" name="color" ref={node => {
-                                                            color = node;
-                                                        }} placeholder="Color" value={this.state.color} onChange={this.handleChangeColor} />
+                                                    <label htmlFor="width">Width: {this.state.logo.width}</label>
+                                                        <input type="range" className="form-control" name="width" ref={node => {
+                                                            width = node;
+                                                        }} min={LogoDefaults.WIDTH_MIN} max={LogoDefaults.WIDTH_MAX} placeholder="Width" value={this.state.logo.width.toString()} onChange={this.handleChangeWidth} />
                                                     </div>
                                                     <div className="form-group">
-                                                        <label htmlFor="fontSize">Font Size:</label>
-                                                        <input type="range" className="form-control" name="fontSize" ref={node => {
-                                                            fontSize = node;
-                                                        }} min={LogoDefaults.FONT_SIZE_MIN} max={LogoDefaults.FONT_SIZE_MAX} value={this.state.fontSize} onChange={this.handleChangeFontSize} />
+                                                    <label htmlFor="length">Height: {this.state.logo.length}</label>
+                                                        <input type="range" className="form-control" name="length" ref={node => {
+                                                            length = node;
+                                                        }} min={LogoDefaults.LENGTH_MIN} max={LogoDefaults.LENGTH_MAX} placeholder="Height" value={this.state.logo.length.toString()} onChange={this.handleChangeLength} />
                                                     </div>
                                                     <div className="form-group">
                                                         <label htmlFor="backgroundColor">Background Color:</label>
                                                         <input type="color" className="form-control" name="backgroundColor" ref={node => {
                                                             backgroundColor = node;
-                                                        }} placeholder="Background Color" value={this.state.backgroundColor} onChange={this.handleChangeBackgroundColor} />
+                                                        }} placeholder="Background Color" value={this.state.logo.backgroundColor} onChange={this.handleChangeBackgroundColor} />
                                                     </div>
                                                     <div className="form-group">
                                                         <label htmlFor="borderColor">Border Color:</label>
                                                         <input type="color" className="form-control" name="borderColor" ref={node => {
                                                             borderColor = node;
-                                                        }} placeholder="Border Color" value={this.state.borderColor} onChange={this.handleChangeBorderColor} />
+                                                        }} placeholder="Border Color" value={this.state.logo.borderColor} onChange={this.handleChangeBorderColor} />
                                                     </div>
                                                     <div className="form-group">
-                                                        <label htmlFor="borderRadius">Border Radius:</label>
+                                                    <label htmlFor="borderRadius">Border Radius: {this.state.logo.borderRadius}</label>
                                                         <input type="range" className="form-control" name="borderRadius" ref={node => {
                                                             borderRadius = node;
-                                                        }} min={LogoDefaults.BORDER_RADIUS_MIN} max={LogoDefaults.BORDER_RADIUS_MAX} value={this.state.borderRadius} onChange={this.handleChangeBorderRadius} />
+                                                        }} min={LogoDefaults.BORDER_RADIUS_MIN.toString()} max={LogoDefaults.BORDER_RADIUS_MAX.toString()} value={this.state.logo.borderRadius.toString()} onChange={this.handleChangeBorderRadius} />
                                                     </div>
                                                     <div className="form-group">
-                                                        <label htmlFor="borderThickness">Border Thickness:</label>
+                                                    <label htmlFor="borderThickness">Border Thickness: {this.state.logo.borderThickness}</label>
                                                         <input type="range" className="form-control" name="borderThickness" ref={node => {
                                                             borderThickness = node;
-                                                        }} min={LogoDefaults.BORDER_THICKNESS_MIN} max={LogoDefaults.BORDER_THICKNESS_MAX} value={this.state.borderThickness} onChange={this.handleChangeBorderThickness} />
+                                                        }} min={LogoDefaults.BORDER_THICKNESS_MIN.toString()} max={LogoDefaults.BORDER_THICKNESS_MAX.toString()} value={this.state.logo.borderThickness.toString()} onChange={this.handleChangeBorderThickness} />
                                                     </div>
                                                     <div className="form-group">
-                                                        <label htmlFor="padding">Padding:</label>
+                                                    <label htmlFor="padding">Padding: {this.state.logo.padding}</label>
                                                         <input type="range" className="form-control" name="padding" ref={node => {
                                                             padding = node;
-                                                        }} min={LogoDefaults.PADDING_MIN} max={LogoDefaults.PADDING_MAX} value={this.state.padding} onChange={this.handleChangePadding} />
+                                                        }} min={LogoDefaults.PADDING_MIN.toString()} max={LogoDefaults.PADDING_MAX.toString()} value={this.state.logo.padding.toString()} onChange={this.handleChangePadding} />
                                                     </div>
                                                     <div className="form-group">
-                                                        <label htmlFor="margin">Margin:</label>
+                                                    <label htmlFor="margin">Margin: {this.state.logo.margin}</label>
                                                         <input type="range" className="form-control" name="margin" ref={node => {
                                                             margin = node;
-                                                        }} min={LogoDefaults.MARGIN_MIN} max={LogoDefaults.MARGIN_MAX} value={this.state.margin} onChange={this.handleChangeMargin} />
+                                                        }} min={LogoDefaults.MARGIN_MIN.toString()} max={LogoDefaults.MARGIN_MAX.toString()} value={this.state.logo.margin.toString()} onChange={this.handleChangeMargin} />
                                                     </div>
-                                                    <div className="row" style={{marginBottom:"3pt", textAlign:"center"}}>
-                                                        <button type="submit" disabled={buttonDisabled} className="btn btn-success" style={{marginRight:"3pt", marginLeft:"12pt"}}>Submit</button>
-                                                        <button className="btn btn-danger" onClick={() => this.props.history.push("/view/"+this.state.id)}>Cancel</button>
+                                                    <div className="row" style={{maxWidth:"15vw"}}>
+                                                        <button type="submit" disabled={buttonDisabled} className="btn btn-success" style={{marginBottom:"12pt"}}>Submit</button>
+                                                        <div style={{overflowWrap:"break-word"}}>
+                                                            <label htmlFor="buttonError" style={{marginLeft:"3pt"}}>{buttonDisabled ? "Error: Invalid Values" : ""}</label>
+                                                        </div>
                                                     </div>
                                                     <label htmlFor="buttonError" style={{marginLeft:"3pt", marginBottom:"12pt", maxWidth:"12vw", overflowWrap:"break-word"}}>{buttonDisabled ? "Error: Logo Text Empty" : ""}</label>
                                                 </form>
                                                 {loading && <p>Loading...</p>}
                                                 {error && <p>Error :( Please try again</p>}
                                             </div>
-                                            {/*Display the Logo in this component
+                                            {/*Display the Logo in this component */}
                                             <LogoWorkspace
-                                                text={this.state.text}
-                                                color={this.state.color}
-                                                fontSize={this.state.fontSize}
-                                                backgroundColor={this.state.backgroundColor}
-                                                borderColor={this.state.borderColor}
-                                                borderRadius={this.state.borderRadius}
-                                                borderThickness={this.state.borderThickness}
-                                                padding={this.state.padding}
-                                                margin={this.state.margin}
-                                                sectionTitle="Edit Logo"
-                                                history={this.props.history}
-                                            /> */}
+                                                logo={this.state.logo}
+                                                position="absolute"
+                                            />
                                         </div>
                                     </div>
                                 </div>
