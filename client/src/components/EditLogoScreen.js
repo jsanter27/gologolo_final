@@ -1,16 +1,28 @@
 import React, { Component } from 'react';
 import gql from "graphql-tag";
 import { Query, Mutation } from "react-apollo";
-import TextEditWorkspace from './TextEditWorkspace';
+import LogoWorkspace from './LogoWorkspace';
 import { LogoDefaults } from './GoLogoLoConstants';
 
 const GET_LOGO = gql`
     query logo($logoId: String) {
-        logo(id: $logoId) {
+        getLogoByID(id: $logoId){
             _id
-            text
-            color
-            fontSize
+            user
+            name
+            length
+            width
+            elements{
+                elementType
+                offsetLeft
+                offsetTop
+                text
+                color
+                fontSize
+                url
+                length
+                width
+            }
             backgroundColor
             borderColor
             borderRadius
@@ -25,9 +37,11 @@ const GET_LOGO = gql`
 const UPDATE_LOGO = gql`
     mutation updateLogo(
         $id: String!,
-        $text: String!,
-        $color: String!,
-        $fontSize: Int!,
+        $user: String!,
+        $name: String!,
+        $length: Int!,
+        $width: Int!,
+        $elements: [logoElementInput],
         $backgroundColor: String!,
         $borderColor: String!,
         $borderRadius: Int!,
@@ -36,9 +50,11 @@ const UPDATE_LOGO = gql`
         $margin: Int!) {
             updateLogo(
                 id: $id,
-                text: $text,
-                color: $color,
-                fontSize: $fontSize,
+                user: $user,
+                name: $name,
+                length: $length,
+                width: $width,
+                elements: $elements,
                 backgroundColor: $backgroundColor,
                 borderColor: $borderColor,
                 borderRadius: $borderRadius,
@@ -324,8 +340,8 @@ class EditLogoScreen extends Component {
                                                 {loading && <p>Loading...</p>}
                                                 {error && <p>Error :( Please try again</p>}
                                             </div>
-                                            {/*Display the Logo in this component*/}
-                                            <TextEditWorkspace
+                                            {/*Display the Logo in this component
+                                            <LogoWorkspace
                                                 text={this.state.text}
                                                 color={this.state.color}
                                                 fontSize={this.state.fontSize}
@@ -337,7 +353,7 @@ class EditLogoScreen extends Component {
                                                 margin={this.state.margin}
                                                 sectionTitle="Edit Logo"
                                                 history={this.props.history}
-                                            />
+                                            /> */}
                                         </div>
                                     </div>
                                 </div>

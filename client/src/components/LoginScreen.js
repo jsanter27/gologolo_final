@@ -48,7 +48,7 @@ class LoginScreen extends Component{
                                 <input type="text" className="form-control" name="username" placeholder="Username" value={this.state.username} onChange={this.handleUsernameChange}/>
                             </div>
                             <div className="row">
-                                <button type="submit" buttonDisabled={true} className={buttonClass}>Log In</button>
+                                <button type="submit" disabled={buttonDisabled} className={buttonClass}>Log In</button>
                             </div>
                         </form>
                     </div>

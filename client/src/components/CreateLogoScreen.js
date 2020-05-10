@@ -2,9 +2,8 @@ import React, { Component } from 'react';
 import gql from "graphql-tag";
 import { Mutation } from "react-apollo";
 import { LogoDefaults } from './GoLogoLoConstants';
-import TextEditWorkspace from './TextEditWorkspace';
+import LogoWorkspace from './LogoWorkspace';
 import { Logo } from '../classes/Logo';
-import { LogoElement } from '../classes/LogoElement';
 
 const ADD_LOGO = gql`
     mutation addLogo(
@@ -12,7 +11,7 @@ const ADD_LOGO = gql`
         $name: String!,
         $length: Int!,
         $width: Int!,
-        $elements: [LogoElement],
+        $elements: [logoElementInput],
         $backgroundColor: String!,
         $borderColor: String!,
         $borderRadius: Int!,
@@ -99,6 +98,13 @@ class CreateLogoScreen extends Component {
     }
 
     handleChangeWidth = (event) => {
+        /* let value = event.target.value;
+        if (value.trim() === ""){
+            value = 0;
+        }
+        else{
+            value = parseInt(event.target.value);
+        } */
         let newLogo = new Logo(
             this.state.logo.name,
             this.state.logo.length,
@@ -230,8 +236,7 @@ class CreateLogoScreen extends Component {
         // IF TEXT IS EMPTY, DISABLE BUTTON
         
         let buttonDisabled = false;
-        if (this.state.logo.name.trim() === ""){
-            console.log("button disabled");
+        if (this.state.logo.name.trim() === "" || this.state.logo.length < LogoDefaults.LENGTH_MIN || this.state.logo.width < LogoDefaults.WIDTH_MIN){
             buttonDisabled = true;
         }
         return (
@@ -240,7 +245,7 @@ class CreateLogoScreen extends Component {
                     <div className="container">
                         <div className="panel panel-default">
                             <div className="row">
-                                <div className="panel-body" style={{marginTop:"36pt"}}>
+                                <div className="panel-body" style={{marginRight:"10pt"}}>
                                     <form onSubmit={e => {
                                         e.preventDefault();
                                         addLogo({ variables: {
@@ -273,16 +278,16 @@ class CreateLogoScreen extends Component {
                                             }} placeholder="Name" value={this.state.logo.name} onChange={this.handleChangeName} />
                                         </div>
                                         <div className="form-group">
-                                            <label htmlFor="length">Length:</label>
-                                            <input type="text" className="form-control" name="length" ref={node => {
-                                                length = node;
-                                            }} placeholder="Length" value={this.state.logo.length.toString()} onChange={this.handleChangeLength} />
+                                        <label htmlFor="width">Width: {this.state.logo.width}</label>
+                                            <input type="range" className="form-control" name="width" ref={node => {
+                                                width = node;
+                                            }} min={LogoDefaults.WIDTH_MIN} max={LogoDefaults.WIDTH_MAX} placeholder="Width" value={this.state.logo.width.toString()} onChange={this.handleChangeWidth} />
                                         </div>
                                         <div className="form-group">
-                                            <label htmlFor="width">Width:</label>
-                                            <input type="text" className="form-control" name="width" ref={node => {
-                                                width = node;
-                                            }} placeholder="Width" value={this.state.logo.width.toString()} onChange={this.handleChangeWidth} />
+                                        <label htmlFor="length">Height: {this.state.logo.length}</label>
+                                            <input type="range" className="form-control" name="length" ref={node => {
+                                                length = node;
+                                            }} min={LogoDefaults.LENGTH_MIN} max={LogoDefaults.LENGTH_MAX} placeholder="Height" value={this.state.logo.length.toString()} onChange={this.handleChangeLength} />
                                         </div>
                                         <div className="form-group">
                                             <label htmlFor="backgroundColor">Background Color:</label>
@@ -297,25 +302,25 @@ class CreateLogoScreen extends Component {
                                             }} placeholder="Border Color" value={this.state.logo.borderColor} onChange={this.handleChangeBorderColor} />
                                         </div>
                                         <div className="form-group">
-                                            <label htmlFor="borderRadius">Border Radius:</label>
+                                        <label htmlFor="borderRadius">Border Radius: {this.state.logo.borderRadius}</label>
                                             <input type="range" className="form-control" name="borderRadius" ref={node => {
                                                 borderRadius = node;
                                             }} min={LogoDefaults.BORDER_RADIUS_MIN.toString()} max={LogoDefaults.BORDER_RADIUS_MAX.toString()} value={this.state.logo.borderRadius.toString()} onChange={this.handleChangeBorderRadius} />
                                         </div>
                                         <div className="form-group">
-                                            <label htmlFor="borderThickness">Border Thickness:</label>
+                                        <label htmlFor="borderThickness">Border Thickness: {this.state.logo.borderThickness}</label>
                                             <input type="range" className="form-control" name="borderThickness" ref={node => {
                                                 borderThickness = node;
                                             }} min={LogoDefaults.BORDER_THICKNESS_MIN.toString()} max={LogoDefaults.BORDER_THICKNESS_MAX.toString()} value={this.state.logo.borderThickness.toString()} onChange={this.handleChangeBorderThickness} />
                                         </div>
                                         <div className="form-group">
-                                            <label htmlFor="padding">Padding:</label>
+                                        <label htmlFor="padding">Padding: {this.state.logo.padding}</label>
                                             <input type="range" className="form-control" name="padding" ref={node => {
                                                 padding = node;
                                             }} min={LogoDefaults.PADDING_MIN.toString()} max={LogoDefaults.PADDING_MAX.toString()} value={this.state.logo.padding.toString()} onChange={this.handleChangePadding} />
                                         </div>
                                         <div className="form-group">
-                                            <label htmlFor="margin">Margin:</label>
+                                        <label htmlFor="margin">Margin: {this.state.logo.margin}</label>
                                             <input type="range" className="form-control" name="margin" ref={node => {
                                                 margin = node;
                                             }} min={LogoDefaults.MARGIN_MIN.toString()} max={LogoDefaults.MARGIN_MAX.toString()} value={this.state.logo.margin.toString()} onChange={this.handleChangeMargin} />
@@ -323,20 +328,17 @@ class CreateLogoScreen extends Component {
                                         <div className="row" style={{maxWidth:"15vw"}}>
                                             <button type="submit" disabled={buttonDisabled} className="btn btn-success" style={{marginBottom:"12pt"}}>Submit</button>
                                             <div style={{overflowWrap:"break-word"}}>
-                                                <label htmlFor="buttonError" style={{marginLeft:"3pt"}}>{buttonDisabled ? "Error: Logo Text Empty" : ""}</label>
+                                                <label htmlFor="buttonError" style={{marginLeft:"3pt"}}>{buttonDisabled ? "Error: Invalid Values" : ""}</label>
                                             </div>
                                         </div>
                                     </form>
                                     {loading && <p>Loading...</p>}
                                     {error && <p>Error :( Please try again</p>}
                                 </div>
-                                {/*Display the Logo in this component
-                                <TextEditWorkspace
+                                <LogoWorkspace
                                     logo={this.state.logo}
-                                    sectionTitle="Create Logo"
-                                    history={this.props.history}
+                                    position="absolute"
                                 />
-                                */}
                             </div>
                         </div>
                     </div>

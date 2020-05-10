@@ -3,15 +3,28 @@ import { Link } from 'react-router-dom';
 import '../App.css';
 import gql from 'graphql-tag';
 import { Query, Mutation } from 'react-apollo';
-import TextEditWorkspace from './TextEditWorkspace';
+import LogoWorkspace from './LogoWorkspace';
+import { Logo } from '../classes/Logo';
 
 const GET_LOGO = gql`
     query logo($logoId: String) {
-        logo(id: $logoId) {
+        getLogoByID(id: $logoId){
             _id
-            text
-            color
-            fontSize
+            user
+            name
+            length
+            width
+            elements{
+                elementType
+                offsetLeft
+                offsetTop
+                text
+                color
+                fontSize
+                url
+                length
+                width
+            }
             backgroundColor
             borderColor
             borderRadius
@@ -24,11 +37,11 @@ const GET_LOGO = gql`
 `;
 
 const DELETE_LOGO = gql`
-  mutation removeLogo($id: String!) {
-    removeLogo(id:$id) {
-      _id
+    mutation removeLogo($id: String!) {
+        removeLogo(id:$id) {
+            _id
+        }
     }
-  }
 `;
 
 class ViewLogoScreen extends Component {
@@ -41,63 +54,42 @@ class ViewLogoScreen extends Component {
                     if (error) return `Error! ${error.message}`;
 
                     return (
-                        <div className="container">
-                            <div className="panel panel-default">
-                                <div className="row">
-                                    <div className="panel-body" style={{marginTop:"36pt"}}>
-                                        <dl>
-                                            <dt>Text:</dt>
-                                            <dd style={{maxWidth:"15vw", overflowX:"auto"}}>{data.logo.text}</dd>
-                                            <dt>Color:</dt>
-                                            <dd>{data.logo.color}</dd>
-                                            <dt>Font Size:</dt>
-                                            <dd>{data.logo.fontSize}</dd>
-                                            <dt>Background Color:</dt>
-                                            <dd>{data.logo.backgroundColor}</dd>
-                                            <dt>Border Color:</dt>
-                                            <dd>{data.logo.borderColor}</dd>
-                                            <dt>Border Radius:</dt>
-                                            <dd>{data.logo.borderRadius}</dd>
-                                            <dt>Border Thickness:</dt>
-                                            <dd>{data.logo.borderThickness}</dd>
-                                            <dt>Padding:</dt>
-                                            <dd>{data.logo.padding}</dd>
-                                            <dt>Margin:</dt>
-                                            <dd>{data.logo.margin}</dd>
-                                            <dt>Last Updated:</dt>
-                                            <dd>{data.logo.lastUpdate}</dd>
-                                        </dl>
-                                        <Mutation mutation={DELETE_LOGO} key={data.logo._id} onCompleted={() => this.props.history.push('/')}>
-                                            {(removeLogo, { loading, error }) => (
-                                                <div>
-                                                    <form
-                                                        onSubmit={e => {
-                                                            e.preventDefault();
-                                                            removeLogo({ variables: { id: data.logo._id } });
-                                                        }}>
-                                                        <Link to={`/edit/${data.logo._id}`} className="btn btn-success">Edit</Link>&nbsp;
-                                                    <button type="submit" className="btn btn-danger">Delete</button>
-                                                    </form>
-                                                    {loading && <p>Loading...</p>}
-                                                    {error && <p>Error :( Please try again</p>}
-                                                </div>
-                                            )}
-                                        </Mutation>
-                                    </div>
-                                    {/*Display the Logo in this component*/}
-                                    <TextEditWorkspace
-                                        text={data.logo.text}
-                                        color={data.logo.color}
-                                        fontSize={data.logo.fontSize}
-                                        backgroundColor={data.logo.backgroundColor}
-                                        borderColor={data.logo.borderColor}
-                                        borderRadius={data.logo.borderRadius}
-                                        borderThickness={data.logo.borderThickness}
-                                        padding={data.logo.padding}
-                                        margin={data.logo.margin}
-                                        sectionTitle="View Logo"
-                                        history={this.props.history}
-                                    />
+                        <div className="container" style={{textAlign:"center"}}>
+                            <div className="row" style={{display:"inline-block"}}>
+                                <LogoWorkspace
+                                    logo={new Logo(
+                                        data.getLogoByID.name,
+                                        data.getLogoByID.length,
+                                        data.getLogoByID.width,
+                                        data.getLogoByID.elements,
+                                        data.getLogoByID.backgroundColor,
+                                        data.getLogoByID.borderColor,
+                                        data.getLogoByID.borderRadius,
+                                        data.getLogoByID.borderThickness,
+                                        data.getLogoByID.padding,
+                                        data.getLogoByID.margin
+                                    )}
+                                    position="static"
+                                />
+                            </div>
+                            <div className="row">
+                                <div className="panel-body" style={{marginTop:"36pt"}}>
+                                    <Mutation mutation={DELETE_LOGO} key={data.getLogoByID._id} onCompleted={() => this.props.history.push('/' + this.props.match.params.username)}>
+                                        {(removeLogo, { loading, error }) => (
+                                            <div>
+                                                <form
+                                                    onSubmit={e => {
+                                                        e.preventDefault();
+                                                        removeLogo({ variables: { id: data.getLogoByID._id } });
+                                                    }}>
+                                                    <Link to={`/${this.props.match.params.username}/edit/${data.getLogoByID._id}`} className="btn btn-success">Edit</Link>&nbsp;
+                                                <button type="submit" className="btn btn-danger">Delete</button>
+                                                </form>
+                                                {loading && <p>Loading...</p>}
+                                                {error && <p>Error :( Please try again</p>}
+                                            </div>
+                                        )}
+                                    </Mutation>
                                 </div>
                             </div>
                         </div>

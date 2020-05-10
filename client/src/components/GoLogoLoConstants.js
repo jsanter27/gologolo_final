@@ -3,7 +3,11 @@ export const LogoDefaults = {
     NAME: "goLogoLo Logo",
     
     LENGTH: 400,
+    LENGTH_MIN: 200,
+    LENGTH_MAX: 720,
     WIDTH: 800,
+    WIDTH_MIN: 200,
+    WIDTH_MAX: 1080,
 
     BACKGROUND_COLOR: "#FFFFFF",
 
