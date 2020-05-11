@@ -54,8 +54,8 @@ class ViewLogoScreen extends Component {
                     if (error) return `Error! ${error.message}`;
 
                     return (
-                        <div className="container" style={{textAlign:"center"}}>
-                            <div className="row" style={{display:"inline-block"}}>
+                        <div className="container">
+                            <div className="row">
                                 <LogoWorkspace
                                     logo={new Logo(
                                         data.getLogoByID.name,
@@ -69,11 +69,11 @@ class ViewLogoScreen extends Component {
                                         data.getLogoByID.padding,
                                         data.getLogoByID.margin
                                     )}
-                                    position="static"
+                                    position="absolute"
                                     canEdit={false}
                                 />
                             </div>
-                            <div className="row">
+                            <div className="row" style={{position:"absolute", top:(data.getLogoByID.length+10).toString()+"px"}}>
                                 <div className="panel-body" style={{marginTop:"36pt"}}>
                                     <Mutation mutation={DELETE_LOGO} key={data.getLogoByID._id} onCompleted={() => this.props.history.push('/' + this.props.match.params.username)}>
                                         {(removeLogo, { loading, error }) => (

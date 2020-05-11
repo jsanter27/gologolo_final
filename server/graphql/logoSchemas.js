@@ -8,6 +8,7 @@ var GraphQLNull = require('graphql').GraphQLNull;
 var GraphQLID = require('graphql').GraphQLID;
 var GraphQLString = require('graphql').GraphQLString;
 var GraphQLInt = require('graphql').GraphQLInt;
+var GraphQLFloat = require('graphql').GraphQLFloat;
 var GraphQLDate = require('graphql-date');
 var LogoModel = require('../models/Logo');
 
@@ -19,10 +20,10 @@ var logoElementType = new GraphQLObjectType({
                 type: GraphQLString
             },
             offsetLeft: {
-                type: GraphQLInt
+                type: GraphQLFloat
             },
             offsetTop: {
-                type: GraphQLInt
+                type: GraphQLFloat
             },
             text: {
                 type: GraphQLString
@@ -37,10 +38,10 @@ var logoElementType = new GraphQLObjectType({
                 type: GraphQLString
             },
             length: {
-                type: GraphQLInt
+                type: GraphQLFloat
             },
             width: {
-                type: GraphQLInt
+                type: GraphQLFloat
             }
         }
     }
@@ -54,10 +55,10 @@ const logoElementInput = new GraphQLInputObjectType({
                 type: GraphQLNonNull(GraphQLString)
             },
             offsetLeft: {
-                type: GraphQLNonNull(GraphQLInt)
+                type: GraphQLNonNull(GraphQLFloat)
             },
             offsetTop: {
-                type: GraphQLNonNull(GraphQLInt)
+                type: GraphQLNonNull(GraphQLFloat)
             },
             text: {
                 type: GraphQLString
@@ -72,10 +73,10 @@ const logoElementInput = new GraphQLInputObjectType({
                 type: GraphQLString
             },
             length: {
-                type: GraphQLInt
+                type: GraphQLFloat
             },
             width: {
-                type: GraphQLInt
+                type: GraphQLFloat
             }
         }
     }

@@ -69,8 +69,8 @@ class CreateLogoScreen extends Component {
 
     // EVENT HANDLERS
     addText = () => {
-        let logoText = LogoElement.createLogoText(Math.floor(this.state.logo.width/2), 
-                    Math.floor(this.state.logo.length/2), this.state.addText, LogoElementDefaults.LogoText.COLOR,
+        let logoText = LogoElement.createLogoText(this.state.logo.width/2, 
+                    this.state.logo.length/2, this.state.addText, LogoElementDefaults.LogoText.COLOR,
                     LogoElementDefaults.LogoText.FONT_SIZE);
 
         let newElements = [logoText];
@@ -101,8 +101,8 @@ class CreateLogoScreen extends Component {
 
     addImage = () => {
         let logoImage = LogoElement.createLogoImage(Math.floor(this.state.logo.width/2), 
-                    Math.floor(this.state.logo.length/2), this.state.addURL, Math.floor(this.state.logo.width/3),
-                    Math.floor(this.state.logo.length/4));
+                    this.state.logo.length/2, this.state.addURL, this.state.logo.width/3,
+                    this.state.logo.length/4);
 
         let newElements = [logoImage];
         newElements = this.state.logo.elements.concat(newElements);
@@ -670,6 +670,50 @@ class CreateLogoScreen extends Component {
         });
     }
 
+    renderEditOptions = () => {
+        if (this.state.focusedElement != null){
+            let editImageButtonDisabled = false;
+            let editImageButtonClass = "btn btn-secondary";
+            if (this.state.editURL.trim() === ""){
+                editImageButtonDisabled = true;
+                editImageButtonClass += " disabled";
+            }
+            let {elementType} = this.state.logo.elements[this.state.focusedElement];
+            if (elementType === LogoElementDefaults.LogoText.TYPE){
+                return (
+                    <div>
+                        <div className="form-group">
+                            <label htmlFor="editText">Text:</label>
+                            <input type="text" className="form-control" name="editText" placeholder="Text" value={this.state.editText} onChange={this.handleChangeEditText} />
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="editColor">Color:</label>
+                            <input type="color" className="form-control" name="editColor" placeholder="Color" value={this.state.editColor} onChange={this.handleChangeEditColor} />
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="editFontSize">Font Size: {this.state.editFontSize}</label>
+                            <input type="range" className="form-control" name="editFontSize" placeholder="Color" value={this.state.editFontSize} onChange={this.handleChangeEditFontSize}
+                            min={LogoElementDefaults.LogoText.FONT_SIZE_MIN.toString()} max={LogoElementDefaults.LogoText.FONT_SIZE_MAX.toString()}/>
+                        </div>
+                    </div>
+                )
+            }
+            else if (elementType === LogoElementDefaults.LogoImage.TYPE){
+                return (
+                    <div>
+                        <div className="form-group">
+                            <label htmlFor="editURL">URL:</label>
+                            <input type="text" className="form-control" name="editText" placeholder="Text" value={this.state.editURL} onChange={this.handleChangeEditText} />
+                        </div>
+                        <div style={{maxWidth:"15vw", textAlign:"center", marginBottom:"3pt"}}>
+                            <button type="button" disabled={editImageButtonDisabled} className={editImageButtonClass} onClick={this.handleEditImage}>Update Image</button>
+                        </div>
+                    </div>
+                )
+            }
+        }
+    }
+
     render() {
         let name, length, width, backgroundColor, borderColor, borderRadius, borderThickness, padding, margin;
 
@@ -692,12 +736,6 @@ class CreateLogoScreen extends Component {
         if (this.state.addURL.trim() === ""){
             addImageButtonDisabled = true;
             addImageButtonClass += " disabled";
-        }
-        let editImageButtonDisabled = false;
-        let editImageButtonClass = "btn btn-secondary";
-        if (this.state.editURL.trim() === ""){
-            editImageButtonDisabled = true;
-            editImageButtonClass += " disabled";
         }
         let upButtonDisabled = false;
         let upButtonClass = "btn btn-secondary";
@@ -723,6 +761,7 @@ class CreateLogoScreen extends Component {
                 upButtonClass += " disabled";
             }
         }
+
         return (
             <Mutation mutation={ADD_LOGO} onCompleted={data => this.props.history.push("/" + this.props.match.params.username + "/view/" + data.addLogo._id)}> 
                 {(addLogo, { loading, error }) => (
@@ -790,37 +829,7 @@ class CreateLogoScreen extends Component {
                                                 <div className="form-group" style={{textAlign:"center"}}>
                                                     <h6>Selected Element: {this.state.focusedElement == null ? "None" : (this.state.logo.elements[this.state.focusedElement].elementType)}</h6>
                                                 </div>
-                                                {() => (
-                                                    this.state.logo.elements[this.state.focusedElement] === LogoElementDefaults.LogoText.TYPE ?
-                                                    (
-                                                    <div>
-                                                        <div className="form-group">
-                                                            <label htmlFor="editText">Text:</label>
-                                                            <input type="text" className="form-control" name="editText" placeholder="Text" value={this.state.editText} onChange={this.handleChangeEditText} />
-                                                        </div>
-                                                        <div className="form-group">
-                                                            <label htmlFor="editColor">Color:</label>
-                                                            <input type="color" className="form-control" name="editColor" placeholder="Color" value={this.state.editColor} onChange={this.handleChangeEditColor} />
-                                                        </div>
-                                                        <div className="form-group">
-                                                            <label htmlFor="editFontSize">Font Size: {this.state.editFontSize}</label>
-                                                            <input type="range" className="form-control" name="editFontSize" placeholder="Color" value={this.state.editFontSize} onChange={this.handleChangeEditFontSize}
-                                                            min={LogoElementDefaults.LogoText.FONT_SIZE_MIN.toString()} max={LogoElementDefaults.LogoText.FONT_SIZE_MAX.toString()}/>
-                                                        </div>
-                                                    </div>
-                                                    ) :
-                                                    (
-                                                    <div>
-                                                        <div className="form-group">
-                                                            <label htmlFor="editURL">URL:</label>
-                                                            <input type="text" className="form-control" name="editText" placeholder="Text" value={this.state.editText} onChange={this.handleChangeEditText} />
-                                                        </div>
-                                                        <div style={{maxWidth:"15vw", textAlign:"center", marginBottom:"3pt"}}>
-                                                            <button type="button" disabled={editImageButtonDisabled} className={editImageButtonClass} onClick={this.handleEditImage}>Update Image</button>
-                                                        </div>
-                                                    </div>
-                                                    )
-                                                )}
+                                                {this.renderEditOptions()}
                                                 <div style={{maxWidth:"15vw", textAlign:"center", marginBottom:"3pt"}}>
                                                     <button type="button" disabled={upButtonDisabled} className={upButtonClass} onClick={this.handleMoveUp}>Move Up</button>
                                                 </div>
