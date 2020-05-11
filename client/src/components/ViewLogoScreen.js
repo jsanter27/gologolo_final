@@ -70,6 +70,7 @@ class ViewLogoScreen extends Component {
                                         data.getLogoByID.margin
                                     )}
                                     position="static"
+                                    canEdit={false}
                                 />
                             </div>
                             <div className="row">

@@ -4,12 +4,12 @@ export const LogoDefaults = {
     
     LENGTH: 400,
     LENGTH_MIN: 200,
-    LENGTH_MAX: 720,
+    LENGTH_MAX: 650,
     WIDTH: 800,
     WIDTH_MIN: 200,
-    WIDTH_MAX: 1080,
+    WIDTH_MAX: 1050,
 
-    BACKGROUND_COLOR: "#FFFFFF",
+    BACKGROUND_COLOR: "#D3D3D3",
 
     BORDER_COLOR: "#000000",
 
@@ -37,7 +37,7 @@ export const LogoElementDefaults = {
     LogoText: {
         TYPE: "Text",
         TEXT: "goLogoLo",
-        COLOR: "#FF0000",
+        COLOR: "#000000",
         FONT_SIZE: 24,
         FONT_SIZE_MIN: 4,
         FONT_SIZE_MAX: 100
