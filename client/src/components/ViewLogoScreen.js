@@ -56,22 +56,24 @@ class ViewLogoScreen extends Component {
                     return (
                         <div className="container">
                             <div className="row">
-                                <LogoWorkspace
-                                    logo={new Logo(
-                                        data.getLogoByID.name,
-                                        data.getLogoByID.length,
-                                        data.getLogoByID.width,
-                                        data.getLogoByID.elements,
-                                        data.getLogoByID.backgroundColor,
-                                        data.getLogoByID.borderColor,
-                                        data.getLogoByID.borderRadius,
-                                        data.getLogoByID.borderThickness,
-                                        data.getLogoByID.padding,
-                                        data.getLogoByID.margin
-                                    )}
-                                    position="absolute"
-                                    canEdit={false}
-                                />
+                                <div>
+                                    <LogoWorkspace
+                                        logo={new Logo(
+                                            data.getLogoByID.name,
+                                            data.getLogoByID.length,
+                                            data.getLogoByID.width,
+                                            data.getLogoByID.elements,
+                                            data.getLogoByID.backgroundColor,
+                                            data.getLogoByID.borderColor,
+                                            data.getLogoByID.borderRadius,
+                                            data.getLogoByID.borderThickness,
+                                            data.getLogoByID.padding,
+                                            data.getLogoByID.margin
+                                        )}
+                                        position="absolute"
+                                        canEdit={false}
+                                    />
+                                </div>
                             </div>
                             <div className="row" style={{position:"absolute", top:(data.getLogoByID.length+10).toString()+"px"}}>
                                 <div className="panel-body" style={{marginTop:"36pt"}}>
@@ -84,7 +86,9 @@ class ViewLogoScreen extends Component {
                                                         removeLogo({ variables: { id: data.getLogoByID._id } });
                                                     }}>
                                                     <Link to={`/${this.props.match.params.username}/edit/${data.getLogoByID._id}`} className="btn btn-success">Edit</Link>&nbsp;
-                                                <button type="submit" className="btn btn-danger">Delete</button>
+                                                    <button type="submit" className="btn btn-danger">Delete</button>
+                                                    <button type="button" className="btn btn-warning" style={{marginLeft:"3pt"}}>Export</button>
+                                                    <Link to={`/${this.props.match.params.username}/`} className="btn btn-dark" style={{marginLeft:"3pt"}}>Home</Link>&nbsp;
                                                 </form>
                                                 {loading && <p>Loading...</p>}
                                                 {error && <p>Error :( Please try again</p>}

@@ -70,11 +70,35 @@ const UPDATE_LOGO = gql`
 
 class EditLogoScreen extends Component {
 
-    constructor(){
-        super();
+    constructor(props){
+        super(props);
 
-        // STATE IS ORIGINALLY UNINITIALIZED
-        this.state = {initialized: false};
+        let defaultLogo = new Logo(
+            LogoDefaults.NAME,
+            LogoDefaults.LENGTH,
+            LogoDefaults.WIDTH,
+            [],
+            LogoDefaults.BACKGROUND_COLOR,
+            LogoDefaults.BORDER_COLOR,
+            LogoDefaults.BORDER_RADIUS,
+            LogoDefaults.BORDER_THICKNESS,
+            LogoDefaults.PADDING,
+            LogoDefaults.MARGIN
+        );
+
+        this.state = {
+            id: this.props.match.params.id,
+            user: this.props.match.params.username,
+            logo: defaultLogo,
+            addText: "",
+            editText: "",
+            editColor: LogoElementDefaults.LogoText.COLOR,
+            editFontSize: LogoElementDefaults.LogoText.FONT_SIZE,
+            addURL: "",
+            editURL: "",
+            focusedElement: null,
+            initialized: false
+        };
     }
 
     // EVENT HANDLERS
@@ -801,22 +825,6 @@ class EditLogoScreen extends Component {
         }
     }
 
-    initialRender = (id, user, logo) => {
-        console.log("INITIAL RENDER");
-        this.setState({
-            id: id,
-            user: user,
-            logo: logo,
-            addText: "",
-            editText: "",
-            editColor: LogoElementDefaults.LogoText.COLOR,
-            editFontSize: LogoElementDefaults.LogoText.FONT_SIZE,
-            addURL: "",
-            editURL: "",
-            focusedElement: null,
-            initialized: true
-        });
-    }
 
     render() {
         let name, length, width, backgroundColor, borderColor, borderRadius, borderThickness, padding, margin;
@@ -843,7 +851,19 @@ class EditLogoScreen extends Component {
                             data.getLogoByID.padding,
                             data.getLogoByID.margin
                         );
-                        this.initialRender(data.getLogoByID.id, data.getLogoByID.user, newLogo);
+                        this.setState({
+                            id: data.getLogoByID._id,
+                            user: data.getLogoByID.user,
+                            logo: newLogo,
+                            addText: "",
+                            editText: "",
+                            editColor: LogoElementDefaults.LogoText.COLOR,
+                            editFontSize: LogoElementDefaults.LogoText.FONT_SIZE,
+                            addURL: "",
+                            editURL: "",
+                            focusedElement: null,
+                            initialized: true
+                        });
                     }
                     
                     // BUTTON CONDITIONS
@@ -892,16 +912,24 @@ class EditLogoScreen extends Component {
                     }
 
                     return (
-                        <Mutation mutation={UPDATE_LOGO} key={this.state.id} onCompleted={() => this.props.history.push(this.props.match.params.username+"/view/"+this.state.id)}>
+                        <Mutation mutation={UPDATE_LOGO} key={this.state.id} onCompleted={() => this.props.history.push("/"+this.props.match.params.username+"/view/"+this.state.id)}>
                             {(updateLogo, { loading, error }) => (
                                 <div className="container">
                                     <div className="panel panel-default">
                                         <div className="row">
-                                            <div className="panel-body" style={{marginTop:"36pt"}}>                                            
+                                            <div className="panel-body" style={{marginRight:"10pt", width:"15vw"}}>
+                                                <div style={{marginBottom:"8pt", border:"solid", padding:"3pt", borderRadius:"2%", backgroundColor:"#e3dc84"}}>
+                                                    <h2 style={{textAlign:"center"}}>Edit Logo</h2>
+                                                </div>                                            
                                                 <form onSubmit={e => {
                                                     e.preventDefault();
+                                                    let inputElements = this.state.logo.elements.slice();
+                                                    inputElements.forEach(e => {
+                                                        delete e.__typename;
+                                                    });
+                                                    console.log(inputElements);
                                                     updateLogo({ variables: { id: this.state.id, user: this.state.user, name: name.value, length: parseInt(length.value), width: parseInt(width.value),
-                                                        elements: this.state.logo.elements, backgroundColor: backgroundColor.value, borderColor: borderColor.value, borderRadius: parseInt(borderRadius.value),
+                                                        elements: inputElements, backgroundColor: backgroundColor.value, borderColor: borderColor.value, borderRadius: parseInt(borderRadius.value),
                                                         borderThickness: parseInt(borderThickness.value), padding: parseInt(padding.value), margin: parseInt(margin.value) } });
                                                     name.value = this.state.logo.name;
                                                     length.value = this.state.logo.length;
@@ -1005,8 +1033,9 @@ class EditLogoScreen extends Component {
                                                             }} min={LogoDefaults.MARGIN_MIN.toString()} max={LogoDefaults.MARGIN_MAX.toString()} value={this.state.logo.margin.toString()} onChange={this.handleChangeMargin} />
                                                         </div>
                                                     </div>
-                                                    <div className="form-group" style={{maxWidth:"15vw", textAlign:"center"}}>
-                                                        <button type="submit" disabled={buttonDisabled} className={buttonClass} style={{marginTop:"3pt"}}>Submit</button>
+                                                    <div className="form-group" style={{maxWidth:"15vw", textAlign:"center", marginTop:"5pt"}}>
+                                                        <button type="submit" disabled={buttonDisabled} className={buttonClass} style={{marginRight:"3pt"}}>Submit</button>
+                                                        <button type="button" className="btn btn-danger" onClick={() => this.props.history.push("/"+this.props.match.params.username+"/view/"+this.props.match.params.id)}>Cancel</button>
                                                         <div style={{overflowWrap:"break-word"}}>
                                                             <label htmlFor="buttonError" style={{marginLeft:"3pt"}}>{buttonDisabled ? "Error: Empty Logo Name" : ""}</label>
                                                         </div>

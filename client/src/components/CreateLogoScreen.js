@@ -768,7 +768,7 @@ class CreateLogoScreen extends Component {
                     <div className="container">
                         <div className="panel panel-default">
                             <div className="row">
-                                <div className="panel-body" style={{marginRight:"10pt"}}>
+                                <div className="panel-body" style={{marginRight:"10pt", width:"15vw"}}>
                                     <div style={{marginBottom:"8pt", border:"solid", padding:"3pt", borderRadius:"2%", backgroundColor:"#e3dc84"}}>
                                         <h2 style={{textAlign:"center"}}>Create Logo</h2>
                                     </div>
@@ -889,8 +889,9 @@ class CreateLogoScreen extends Component {
                                                 }} min={LogoDefaults.MARGIN_MIN.toString()} max={LogoDefaults.MARGIN_MAX.toString()} value={this.state.logo.margin.toString()} onChange={this.handleChangeMargin} />
                                             </div>
                                         </div>
-                                        <div className="form-group" style={{maxWidth:"15vw", textAlign:"center"}}>
-                                            <button type="submit" disabled={buttonDisabled} className={buttonClass} style={{marginTop:"3pt"}}>Submit</button>
+                                        <div className="form-group" style={{maxWidth:"15vw", textAlign:"center", marginTop:"5pt"}}>
+                                            <button type="submit" disabled={buttonDisabled} className={buttonClass} style={{marginRight:"3pt"}}>Submit</button>
+                                            <button type="button" className="btn btn-danger" onClick={() => this.props.history.push("/"+this.props.match.params.username)}>Cancel</button>
                                             <div style={{overflowWrap:"break-word"}}>
                                                 <label htmlFor="buttonError" style={{marginLeft:"3pt"}}>{buttonDisabled ? "Error: Empty Logo Name" : ""}</label>
                                             </div>
