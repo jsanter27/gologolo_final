@@ -49,7 +49,7 @@ class HomeScreen extends Component {
                                 {data.getUserLogos.sort((a, b) => b.lastUpdate > a.lastUpdate).map((logo, index) => (
                                     <div key={index} className='home_logo_link'
                                         style={{ cursor: "pointer" }}>
-                                        <button className="btn btn-secondary" style={{marginBottom:"8pt"}} onClick={() => this.props.history.push(this.props.match.params.username + "/view/" + logo._id)}>{logo.name}</button>
+                                        <button className="btn btn-secondary" style={{marginBottom:"8pt"}} onClick={() => this.props.history.push("/"+this.props.match.params.username + "/view/" + logo._id)}>{logo.name}</button>
                                     </div>
                                 ))}
                             </div>

@@ -97,11 +97,10 @@ class EditLogoScreen extends Component {
             addURL: "",
             editURL: "",
             focusedElement: null,
-            initialized: false
+            initialized: false,
+            oldElements: defaultLogo.elements.slice()
         };
     }
-
-    // EVENT HANDLERS
 
     // EVENT HANDLERS
     addText = () => {
@@ -134,7 +133,8 @@ class EditLogoScreen extends Component {
             addURL: this.state.addURL,
             editURL: this.state.editURL,
             focusedElement: this.state.focusedElement,
-            initialized: this.state.initialized
+            initialized: this.state.initialized,
+            oldElements: this.state.oldElements
         });
     }
 
@@ -168,7 +168,8 @@ class EditLogoScreen extends Component {
             addURL: "",
             editURL: this.state.editURL,
             focusedElement: this.state.focusedElement,
-            initialized: this.state.initialized
+            initialized: this.state.initialized,
+            oldElements: this.state.oldElements
         })
     }
 
@@ -198,7 +199,8 @@ class EditLogoScreen extends Component {
             addURL: "",
             editURL: this.state.editURL,
             focusedElement: this.state.focusedElement,
-            initialized: this.state.initialized
+            initialized: this.state.initialized,
+            oldElements: this.state.oldElements
         })
     }
 
@@ -229,7 +231,8 @@ class EditLogoScreen extends Component {
             addURL: this.state.addURL,
             editURL: this.state.editURL,
             focusedElement: this.state.focusedElement,
-            initialized: this.state.initialized
+            initialized: this.state.initialized,
+            oldElements: this.state.oldElements
         })
     }
 
@@ -260,7 +263,8 @@ class EditLogoScreen extends Component {
             addURL: this.state.addURL,
             editURL: this.state.editURL,
             focusedElement: this.state.focusedElement,
-            initialized: this.state.initialized
+            initialized: this.state.initialized,
+            oldElements: this.state.oldElements
         })
     }
 
@@ -277,7 +281,8 @@ class EditLogoScreen extends Component {
                 addURL: this.state.addURL,
                 editURL: this.state.editURL,
                 focusedElement: elementIndex,
-                initialized: this.state.initialized
+                initialized: this.state.initialized,
+                oldElements: this.state.oldElements
             })
         }
         else{
@@ -292,7 +297,8 @@ class EditLogoScreen extends Component {
                 addURL: this.state.addURL,
                 editURL: this.state.logo.elements[elementIndex].url,
                 focusedElement: elementIndex,
-                initialized: this.state.initialized
+                initialized: this.state.initialized,
+                oldElements: this.state.oldElements
             })
         }
     }
@@ -325,7 +331,8 @@ class EditLogoScreen extends Component {
             addURL: this.state.addURL,
             editURL: this.state.editURL,
             focusedElement: this.state.focusedElement+1,
-            initialized: this.state.initialized
+            initialized: this.state.initialized,
+            oldElements: this.state.oldElements
         })
     }
 
@@ -357,7 +364,8 @@ class EditLogoScreen extends Component {
             addURL: this.state.addURL,
             editURL: this.state.editURL,
             focusedElement: this.state.focusedElement-1,
-            initialized: this.state.initialized
+            initialized: this.state.initialized,
+            oldElements: this.state.oldElements
         })
     }
 
@@ -387,7 +395,8 @@ class EditLogoScreen extends Component {
             addURL: this.state.addURL,
             editURL: this.state.editURL,
             focusedElement: null,
-            initialized: this.state.initialized
+            initialized: this.state.initialized,
+            oldElements: this.state.oldElements
         })
     }
 
@@ -403,7 +412,8 @@ class EditLogoScreen extends Component {
             addURL: this.state.addURL,
             editURL: this.state.editURL,
             focusedElement: this.state.focusedElement,
-            initialized: this.state.initialized
+            initialized: this.state.initialized,
+            oldElements: this.state.oldElements
         });
     }
 
@@ -433,7 +443,8 @@ class EditLogoScreen extends Component {
             addURL: this.state.addURL,
             editURL: this.state.editURL,
             focusedElement: this.state.focusedElement,
-            initialized: this.state.initialized
+            initialized: this.state.initialized,
+            oldElements: this.state.oldElements
         });
     }
 
@@ -463,13 +474,14 @@ class EditLogoScreen extends Component {
             addURL: this.state.addURL,
             editURL: this.state.editURL,
             focusedElement: this.state.focusedElement,
-            initialized: this.state.initialized
+            initialized: this.state.initialized,
+            oldElements: this.state.oldElements
         });
     }
 
     handleChangeEditFontSize = (event) => {
         let newElements = this.state.logo.elements.slice();
-        newElements[this.state.focusedElement].fontSize = event.target.value;
+        newElements[this.state.focusedElement].fontSize = parseInt(event.target.value);
         let newLogo = new Logo(
             this.state.logo.name,
             this.state.logo.length,
@@ -493,7 +505,8 @@ class EditLogoScreen extends Component {
             addURL: this.state.addURL,
             editURL: this.state.editURL,
             focusedElement: this.state.focusedElement,
-            initialized: this.state.initialized
+            initialized: this.state.initialized,
+            oldElements: this.state.oldElements
         });
     }
 
@@ -509,7 +522,8 @@ class EditLogoScreen extends Component {
             addURL: event.target.value,
             editURL: this.state.editURL,
             focusedElement: this.state.focusedElement,
-            initialized: this.state.initialized
+            initialized: this.state.initialized,
+            oldElements: this.state.oldElements
         });
     }
 
@@ -525,7 +539,8 @@ class EditLogoScreen extends Component {
             addURL: this.state.addURL,
             editURL: event.target.value,
             focusedElement: this.state.focusedElement,
-            initialized: this.state.initialized
+            initialized: this.state.initialized,
+            oldElements: this.state.oldElements
         });
     }
 
@@ -553,7 +568,8 @@ class EditLogoScreen extends Component {
             addURL: this.state.addURL,
             editURL: this.state.editURL,
             focusedElement: this.state.focusedElement,
-            initialized: this.state.initialized
+            initialized: this.state.initialized,
+            oldElements: this.state.oldElements
         });
     }
 
@@ -581,7 +597,8 @@ class EditLogoScreen extends Component {
             addURL: this.state.addURL,
             editURL: this.state.editURL,
             focusedElement: this.state.focusedElement,
-            initialized: this.state.initialized
+            initialized: this.state.initialized,
+            oldElements: this.state.oldElements
         });
     }
 
@@ -609,7 +626,8 @@ class EditLogoScreen extends Component {
             addURL: this.state.addURL,
             editURL: this.state.editURL,
             focusedElement: this.state.focusedElement,
-            initialized: this.state.initialized
+            initialized: this.state.initialized,
+            oldElements: this.state.oldElements
         });
     }
 
@@ -637,7 +655,8 @@ class EditLogoScreen extends Component {
             addURL: this.state.addURL,
             editURL: this.state.editURL,
             focusedElement: this.state.focusedElement,
-            initialized: this.state.initialized
+            initialized: this.state.initialized,
+            oldElements: this.state.oldElements
         });
     }
 
@@ -665,7 +684,8 @@ class EditLogoScreen extends Component {
             addURL: this.state.addURL,
             editURL: this.state.editURL,
             focusedElement: this.state.focusedElement,
-            initialized: this.state.initialized
+            initialized: this.state.initialized,
+            oldElements: this.state.oldElements
         });
     }
 
@@ -693,7 +713,8 @@ class EditLogoScreen extends Component {
             addURL: this.state.addURL,
             editURL: this.state.editURL,
             focusedElement: this.state.focusedElement,
-            initialized: this.state.initialized
+            initialized: this.state.initialized,
+            oldElements: this.state.oldElements
         });
     }
 
@@ -721,7 +742,8 @@ class EditLogoScreen extends Component {
             addURL: this.state.addURL,
             editURL: this.state.editURL,
             focusedElement: this.state.focusedElement,
-            initialized: this.state.initialized
+            initialized: this.state.initialized,
+            oldElements: this.state.oldElements
         });
     }
 
@@ -749,7 +771,8 @@ class EditLogoScreen extends Component {
             addURL: this.state.addURL,
             editURL: this.state.editURL,
             focusedElement: this.state.focusedElement,
-            initialized: this.state.initialized
+            initialized: this.state.initialized,
+            oldElements: this.state.oldElements
         });
     }
 
@@ -777,8 +800,38 @@ class EditLogoScreen extends Component {
             addURL: this.state.addURL,
             editURL: this.state.editURL,
             focusedElement: this.state.focusedElement,
-            initialized: this.state.initialized
+            initialized: this.state.initialized,
+            oldElements: this.state.oldElements
         });
+    }
+
+    handleCancel = () => {
+        let newLogo = new Logo(
+            this.state.logo.name,
+            this.state.logo.length,
+            this.state.logo.width,
+            this.state.oldElements,
+            this.state.logo.backgroundColor,
+            this.state.logo.borderColor,
+            this.state.logo.borderRadius,
+            this.state.logo.borderThickness,
+            this.state.logo.padding,
+            this.state.logo.margin
+        )
+        this.setState({
+            id : this.state.id,
+            user : this.state.user,
+            logo: newLogo,
+            addText: this.state.addText,
+            editText: this.state.editText,
+            editColor: this.state.editColor,
+            editFontSize: this.state.editFontSize,
+            addURL: this.state.addURL,
+            editURL: this.state.editURL,
+            focusedElement: this.state.focusedElement,
+            initialized: this.state.initialized,
+            oldElements: this.state.oldElements
+        }, () => this.props.history.push("/"+this.props.match.params.username+"/view/"+this.props.match.params.id));
     }
 
     renderEditOptions = () => {
@@ -862,7 +915,8 @@ class EditLogoScreen extends Component {
                             addURL: "",
                             editURL: "",
                             focusedElement: null,
-                            initialized: true
+                            initialized: true,
+                            oldElements: newLogo.elements.slice()
                         });
                     }
                     
@@ -1034,8 +1088,8 @@ class EditLogoScreen extends Component {
                                                         </div>
                                                     </div>
                                                     <div className="form-group" style={{maxWidth:"15vw", textAlign:"center", marginTop:"5pt"}}>
-                                                        <button type="submit" disabled={buttonDisabled} className={buttonClass} style={{marginRight:"3pt"}}>Submit</button>
-                                                        <button type="button" className="btn btn-danger" onClick={() => this.props.history.push("/"+this.props.match.params.username+"/view/"+this.props.match.params.id)}>Cancel</button>
+                                                        <button type="submit" disabled={buttonDisabled} className={buttonClass} style={{marginRight:"3pt"}}>Save</button>
+                                                        <button type="button" className="btn btn-danger" onClick={this.handleCancel}>Cancel</button>
                                                         <div style={{overflowWrap:"break-word"}}>
                                                             <label htmlFor="buttonError" style={{marginLeft:"3pt"}}>{buttonDisabled ? "Error: Empty Logo Name" : ""}</label>
                                                         </div>
@@ -1049,6 +1103,7 @@ class EditLogoScreen extends Component {
                                                 logo={this.state.logo}
                                                 position="absolute"
                                                 canEdit={true}
+                                                canExport={false}
                                                 changePosition={this.handleChangeElementPosition}
                                                 changeFocusedElement={this.handleChangeFocusedElement}
                                                 changeImageSize={this.handleChangeImageSize}

@@ -72,6 +72,7 @@ class ViewLogoScreen extends Component {
                                         )}
                                         position="absolute"
                                         canEdit={false}
+                                        canExport={true}
                                     />
                                 </div>
                             </div>
@@ -87,7 +88,6 @@ class ViewLogoScreen extends Component {
                                                     }}>
                                                     <Link to={`/${this.props.match.params.username}/edit/${data.getLogoByID._id}`} className="btn btn-success">Edit</Link>&nbsp;
                                                     <button type="submit" className="btn btn-danger">Delete</button>
-                                                    <button type="button" className="btn btn-warning" style={{marginLeft:"3pt"}}>Export</button>
                                                     <Link to={`/${this.props.match.params.username}/`} className="btn btn-dark" style={{marginLeft:"3pt"}}>Home</Link>&nbsp;
                                                 </form>
                                                 {loading && <p>Loading...</p>}

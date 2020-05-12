@@ -394,7 +394,7 @@ class CreateLogoScreen extends Component {
 
     handleChangeEditFontSize = (event) => {
         let newElements = this.state.logo.elements.slice();
-        newElements[this.state.focusedElement].fontSize = event.target.value;
+        newElements[this.state.focusedElement].fontSize = parseInt(event.target.value);
         let newLogo = new Logo(
             this.state.logo.name,
             this.state.logo.length,

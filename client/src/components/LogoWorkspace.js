@@ -1,25 +1,17 @@
 import React, { Component } from 'react';
 import { LogoElementDefaults } from './GoLogoLoConstants';
 import { Rnd } from 'react-rnd';
+import * as html2canvas from 'html2canvas';
 
 // THIS IS HOW WE DISPLAY THE LOGO, IN THIS COMPONENT
 class LogoWorkspace extends Component {
-    
-    componentDidMount(){
-        /*
-        const canvas = this.refs.canvas;
-        const ctx = canvas.getContext("2d");
 
-        this.props.logo.elements.forEach( (element, index) => {
-            if (element.elementType === LogoElementDefaults.LogoText.TYPE){
-                console.log(element);
-                ctx.font = element.fontSize.toString() + "px Robaaaoto";
-                ctx.fillStyle = element.color;
-                ctx.fillText(element.text, element.offsetLeft, element.offsetTop);
-                ctx.fill();
-            } 
-        })
-        */
+    exportLogo = () => {
+        const logo = this.logoDiv;
+        html2canvas(logo).then((canvas) => {
+            const imgURL = canvas.toDataURL("image/png");
+            window.open(imgURL);
+        });
     }
 
     render() {
@@ -30,8 +22,9 @@ class LogoWorkspace extends Component {
                 borderColor: this.props.logo.borderColor,
                 borderRadius: this.props.logo.borderRadius.toString() + "pt",
                 borderWidth: this.props.logo.borderThickness.toString() + "pt",
-                padding: this.props.logo.padding.toString() + "pt",
+                padding: "0pt",
                 position: this.props.position,
+                top: "35pt",
                 width: this.props.logo.width.toString() + "px",
                 maxWidth: "70vw",
                 height: this.props.logo.length.toString() + "px",
@@ -41,13 +34,22 @@ class LogoWorkspace extends Component {
                 zIndex: "0"
             }
         }
+        let displayExport = "";
+        if (this.props.canExport){
+            displayExport = "initial";
+        }
+        else {
+            displayExport = "none";
+        }
         return (
             <div className="col s8" style={{margin:this.props.logo.margin.toString() + "pt"}}>
                 <div className="row">
                     <h2>{this.props.logo.name}</h2>
+                    <button type="button" className="btn btn-warning" style={{marginTop:"3pt", position:"absolute", 
+                    left:(this.props.logo.width-80).toString() + "px" , display:displayExport}} onClick={this.exportLogo}>Export</button>
                 </div>
                 <div className="row">
-                    <div ref="canvas" style={ styles.container }>
+                    <div ref={ref => this.logoDiv = ref} style={ styles.container }>
                         {this.props.logo.elements.map( (element, index) => 
                         (element.elementType === LogoElementDefaults.LogoText.TYPE ?
                         (
@@ -66,7 +68,7 @@ class LogoWorkspace extends Component {
                             onDragStop={(event, data) => this.props.changePosition(index, data.x, data.y)}
                             key={index}>
                                 <div style={{ fontSize:element.fontSize.toString()+"px", 
-                                color:element.color, whiteSpace:"pre-wrap" }} onClick={() => this.props.changeFocusedElement(index)}>
+                                color:element.color, whiteSpace:"pre-wrap" }} onClick={() => this.props.canEdit ? this.props.changeFocusedElement(index) : {}}>
                                     {element.text}
                                 </div>
                             </Rnd>
@@ -90,7 +92,7 @@ class LogoWorkspace extends Component {
                             onResize={(event, direction, ref, delta, position) => this.props.changeImageSize(index, ref.offsetWidth, ref.offsetHeight)}
                             key={index}>
                                 <img alt="" src={element.url} height={element.length.toString()+"px"} 
-                                width={element.width.toString()+"px"} onClick={() => this.props.changeFocusedElement(index)} />
+                                width={element.width.toString()+"px"} onClick={() => this.props.canEdit ? this.props.changeFocusedElement(index) : {}} />
                             </Rnd>
                         )
                         ))}

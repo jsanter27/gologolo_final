@@ -40,7 +40,7 @@ export const LogoElementDefaults = {
         COLOR: "#000000",
         FONT_SIZE: 24,
         FONT_SIZE_MIN: 4,
-        FONT_SIZE_MAX: 100
+        FONT_SIZE_MAX: 150
     },
     LogoImage: {
         TYPE: "Image",
