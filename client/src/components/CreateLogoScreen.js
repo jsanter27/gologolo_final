@@ -891,7 +891,6 @@ class CreateLogoScreen extends Component {
                                         </div>
                                         <div className="form-group" style={{maxWidth:"15vw", textAlign:"center", marginTop:"5pt"}}>
                                             <button type="submit" disabled={buttonDisabled} className={buttonClass} style={{marginRight:"3pt"}}>Submit</button>
-                                            <button type="button" className="btn btn-danger" onClick={() => this.props.history.push("/"+this.props.match.params.username)}>Cancel</button>
                                             <div style={{overflowWrap:"break-word"}}>
                                                 <label htmlFor="buttonError" style={{marginLeft:"3pt"}}>{buttonDisabled ? "Error: Empty Logo Name" : ""}</label>
                                             </div>
@@ -907,6 +906,8 @@ class CreateLogoScreen extends Component {
                                     changePosition={this.handleChangeElementPosition}
                                     changeFocusedElement={this.handleChangeFocusedElement}
                                     changeImageSize={this.handleChangeImageSize}
+                                    history={this.props.history}
+                                    match={this.props.match}
                                 />
                             </div>
                         </div>

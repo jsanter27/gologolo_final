@@ -1107,6 +1107,8 @@ class EditLogoScreen extends Component {
                                                 changePosition={this.handleChangeElementPosition}
                                                 changeFocusedElement={this.handleChangeFocusedElement}
                                                 changeImageSize={this.handleChangeImageSize}
+                                                history={this.props.history}
+                                                match={this.props.match}
                                             />
                                         </div>
                                     </div>
