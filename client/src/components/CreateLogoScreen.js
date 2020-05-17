@@ -5,6 +5,7 @@ import { LogoDefaults, LogoElementDefaults } from './GoLogoLoConstants';
 import LogoWorkspace from './LogoWorkspace';
 import { Logo } from '../classes/Logo';
 import { LogoElement } from '../classes/LogoElement';
+import { AuthContext } from '../context/AuthContext';
 
 const ADD_LOGO = gql`
     mutation addLogo(
@@ -64,6 +65,14 @@ class CreateLogoScreen extends Component {
             addURL: "",
             editURL: "",
             focusedElement: null,
+        }
+    }
+
+    static contextType = AuthContext;
+
+    componentDidMount(){
+        if (!this.context.isAuthenticated){
+            this.props.history.push("/login");
         }
     }
 
@@ -763,7 +772,7 @@ class CreateLogoScreen extends Component {
         }
 
         return (
-            <Mutation mutation={ADD_LOGO} onCompleted={data => this.props.history.push("/" + this.props.match.params.username + "/view/" + data.addLogo._id)}> 
+            <Mutation mutation={ADD_LOGO} onCompleted={data => this.props.history.push("/view/" + data.addLogo._id)}> 
                 {(addLogo, { loading, error }) => (
                     <div className="container">
                         <div className="panel panel-default">
@@ -774,8 +783,13 @@ class CreateLogoScreen extends Component {
                                     </div>
                                     <form onSubmit={e => {
                                         e.preventDefault();
+
+                                        if (!this.context.isAuthenticated){
+                                            this.props.history.push("/login");
+                                        }
+
                                         addLogo({ variables: {
-                                            user: this.props.match.params.username, 
+                                            user: this.context.user.username, 
                                             name: this.state.logo.name, 
                                             length: this.state.logo.length, 
                                             width: this.state.logo.width,

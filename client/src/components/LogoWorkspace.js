@@ -48,7 +48,7 @@ class LogoWorkspace extends Component {
                     <button type="button" className="btn btn-warning" style={{marginTop:"3pt", position:"absolute", 
                     left:(this.props.logo.width-150).toString() + "px" , display:displayExport}} onClick={this.exportLogo}>Export</button>
                     <button type="button" className="btn btn-secondary" style={{marginTop:"3pt", position:"absolute", 
-                    left:(this.props.logo.width-75).toString() + "px"}} onClick={() => this.props.history.push("/"+this.props.match.params.username)}>Home</button>
+                    left:(this.props.logo.width-75).toString() + "px"}} onClick={() => this.props.history.push("/")}>Home</button>
                 </div>
                 <div className="row">
                     <div ref={ref => this.logoDiv = ref} style={ styles.container }>

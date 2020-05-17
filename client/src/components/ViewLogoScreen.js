@@ -5,6 +5,7 @@ import gql from 'graphql-tag';
 import { Query, Mutation } from 'react-apollo';
 import LogoWorkspace from './LogoWorkspace';
 import { Logo } from '../classes/Logo';
+import { AuthContext } from '../context/AuthContext';
 
 const GET_LOGO = gql`
     query logo($logoId: String) {
@@ -46,6 +47,14 @@ const DELETE_LOGO = gql`
 
 class ViewLogoScreen extends Component {
 
+    static contextType = AuthContext;
+
+    componentDidMount(){
+        if(!this.context.isAuthenticated){
+            this.props.history.push('/login');
+        }
+    }
+
     render() {
         return (
             <Query fetchPolicy={'network-only'} pollInterval={250} query={GET_LOGO} variables={{ logoId: this.props.match.params.id }}>
@@ -81,7 +90,7 @@ class ViewLogoScreen extends Component {
                                 </div>
                                 <div className="row" style={{position:"absolute", top:(data.getLogoByID.length+10).toString()+"px", textAlign:"center"}}>
                                     <div className="panel-body" style={{marginTop:"36pt"}}>
-                                        <Mutation mutation={DELETE_LOGO} key={data.getLogoByID._id} onCompleted={() => this.props.history.push('/' + this.props.match.params.username)}>
+                                        <Mutation mutation={DELETE_LOGO} key={data.getLogoByID._id} onCompleted={() => this.props.history.push('/')}>
                                             {(removeLogo, { loading, error }) => (
                                                 <div>
                                                     <form
@@ -89,7 +98,7 @@ class ViewLogoScreen extends Component {
                                                             e.preventDefault();
                                                             removeLogo({ variables: { id: data.getLogoByID._id } });
                                                         }}>
-                                                        <Link to={`/${this.props.match.params.username}/edit/${data.getLogoByID._id}`} className="btn btn-success">Edit</Link>&nbsp;
+                                                        <Link to={`/edit/${data.getLogoByID._id}`} className="btn btn-success">Edit</Link>&nbsp;
                                                         <button type="submit" className="btn btn-danger">Delete</button>
                                                     </form>
                                                     {loading && <p>Loading...</p>}

@@ -5,6 +5,7 @@ import LogoWorkspace from './LogoWorkspace';
 import { LogoDefaults, LogoElementDefaults } from './GoLogoLoConstants';
 import { Logo } from '../classes/Logo';
 import { LogoElement } from '../classes/LogoElement';
+import { AuthContext } from '../context/AuthContext';
 
 const GET_LOGO = gql`
     query logo($logoId: String) {
@@ -100,6 +101,14 @@ class EditLogoScreen extends Component {
             initialized: false,
             oldElements: defaultLogo.elements.slice()
         };
+    }
+
+    static contextType = AuthContext;
+
+    componentDidMount(){
+        if (!this.context.isAuthenticated){
+            this.props.history.push("/login");
+        }
     }
 
     // EVENT HANDLERS
@@ -831,7 +840,7 @@ class EditLogoScreen extends Component {
             focusedElement: this.state.focusedElement,
             initialized: this.state.initialized,
             oldElements: this.state.oldElements
-        }, () => this.props.history.push("/"+this.props.match.params.username+"/view/"+this.props.match.params.id));
+        }, () => this.props.history.push("/view/"+this.props.match.params.id));
     }
 
     renderEditOptions = () => {
@@ -966,7 +975,7 @@ class EditLogoScreen extends Component {
                     }
 
                     return (
-                        <Mutation mutation={UPDATE_LOGO} key={this.state.id} onCompleted={() => this.props.history.push("/"+this.props.match.params.username+"/view/"+this.state.id)}>
+                        <Mutation mutation={UPDATE_LOGO} key={this.state.id} onCompleted={() => this.props.history.push("/view/"+this.state.id)}>
                             {(updateLogo, { loading, error }) => (
                                 <div className="container">
                                     <div className="panel panel-default">
@@ -976,12 +985,16 @@ class EditLogoScreen extends Component {
                                                     <h2 style={{textAlign:"center"}}>Edit Logo</h2>
                                                 </div>                                            
                                                 <form onSubmit={e => {
+
+                                                    if (!this.context.isAuthenticated){
+                                                        this.props.history.push("/login");
+                                                    }
+
                                                     e.preventDefault();
                                                     let inputElements = this.state.logo.elements.slice();
                                                     inputElements.forEach(e => {
                                                         delete e.__typename;
                                                     });
-                                                    console.log(inputElements);
                                                     updateLogo({ variables: { id: this.state.id, user: this.state.user, name: name.value, length: parseInt(length.value), width: parseInt(width.value),
                                                         elements: inputElements, backgroundColor: backgroundColor.value, borderColor: borderColor.value, borderRadius: parseInt(borderRadius.value),
                                                         borderThickness: parseInt(borderThickness.value), padding: parseInt(padding.value), margin: parseInt(margin.value) } });
