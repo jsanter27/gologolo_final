@@ -60,7 +60,7 @@ class HomeScreen extends Component {
                     if (loading) return 'Loading...';
                     if (error) return `Error! ${error.message}`;
                     return (
-                        <div className="container row" style={{marginTop:"3pt"}}>
+                        <div className="container row" style={{marginTop:"20pt"}}>
                             <div className="col s4" style={{textAlign:"right"}}>
                                 <h3>Recent Work</h3>
                                 {/*Sort the Logos by Last Update Here*/}
@@ -73,7 +73,7 @@ class HomeScreen extends Component {
                             </div>
                             <div className="col s8">
                                 <div id="home_banner_container">
-                                    goLogoLo
+                                    goLogoLo Home
                                 </div>
                                 <div style={{textAlign:"center", marginTop:"12pt"}}>
                                     <button className="btn btn-success" onClick={() => this.props.history.push("/create")}>Add Logo</button>
