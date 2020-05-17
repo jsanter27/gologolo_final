@@ -65,7 +65,7 @@ class LogoWorkspace extends Component {
                                 topLeft:false,
                                 topRight:false}} 
                             position={{x:element.offsetLeft, y:element.offsetTop}} 
-                            style={{zIndex:(index+1).toString()}} 
+                            style={{zIndex:(index+1).toString(), pointerEvents:this.props.canEdit ? "auto" : "none"}} 
                             onDragStart={() => this.props.changeFocusedElement(index)} 
                             onDragStop={(event, data) => this.props.changePosition(index, data.x, data.y)}
                             key={index}>
@@ -87,7 +87,7 @@ class LogoWorkspace extends Component {
                                 topLeft:this.props.canEdit,
                                 topRight:this.props.canEdit}}  
                             position={{x:element.offsetLeft, y:element.offsetTop}} 
-                            style={{zIndex:(index+1).toString()}} 
+                            style={{zIndex:(index+1).toString(), pointerEvents:this.props.canEdit ? "auto" : "none"}} 
                             onDragStart={() => this.props.changeFocusedElement(index)} 
                             onDragStop={(event, data) => this.props.changePosition(index, data.x, data.y)} 
                             onResizeStart={() => this.props.changeFocusedElement(index)}
