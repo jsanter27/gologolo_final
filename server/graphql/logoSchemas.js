@@ -11,6 +11,7 @@ var GraphQLInt = require('graphql').GraphQLInt;
 var GraphQLFloat = require('graphql').GraphQLFloat;
 var GraphQLDate = require('graphql-date');
 var LogoModel = require('../models/Logo');
+var UserModel = require('../models/User');
 
 var logoElementType = new GraphQLObjectType({
     name: 'logoElement',
@@ -149,10 +150,52 @@ var deleteInfo = new GraphQLObjectType({
     }
 });
 
+var userType = new GraphQLObjectType({
+    name: "userType",
+    fields: function () {
+        return {
+            username: {
+                name: "username",
+                type: GraphQLString
+            },
+            password: {
+                name: "password",
+                type: GraphQLString
+            }
+        }
+    }
+});
+
 var queryType = new GraphQLObjectType({
     name: 'Query',
     fields: function () {
         return {
+            getAllUsers: {
+                type: new GraphQLList(userType),
+                resolve: function () {
+                    const users = UserModel.find().exec()
+                    if (!users) {
+                        throw new Error('Error')
+                    }
+                    return users
+                }
+            },
+            getUser: {
+                type: userType,
+                args: {
+                    username : {
+                        name : "username",
+                        type : GraphQLString
+                    }
+                },
+                resolve: function (root, params) {
+                    const user = UserModel.findOne({ username: params.username }).exec()
+                    if (!user){
+                        throw new Error('Error')
+                    }
+                    return user
+                }
+            },
             getAllLogos: {
                 type: new GraphQLList(logoType),
                 resolve: function () {

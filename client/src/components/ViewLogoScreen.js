@@ -98,8 +98,10 @@ class ViewLogoScreen extends Component {
                                                             e.preventDefault();
                                                             removeLogo({ variables: { id: data.getLogoByID._id } });
                                                         }}>
-                                                        <Link to={`/edit/${data.getLogoByID._id}`} className="btn btn-success">Edit</Link>&nbsp;
-                                                        <button type="submit" className="btn btn-danger">Delete</button>
+                                                        <div>
+                                                            <Link to={`/edit/${data.getLogoByID._id}`} className="btn btn-success" style={{position:'absolute', left:"5pt"}}>Edit</Link>&nbsp;
+                                                            <button type="submit" className="btn btn-danger" style={{position:"absolute", left:"50pt"}}>Delete</button>
+                                                        </div>
                                                     </form>
                                                     {loading && <p>Loading...</p>}
                                                     {error && <p>Error :( Please try again</p>}
