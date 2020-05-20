@@ -3,7 +3,7 @@ import '../App.css';
 import authService from '../services/authService';
 import { AuthContext } from '../context/AuthContext';
 
-class LoginScreen extends Component{
+class RegisterScreen extends Component{
 
     constructor(){
         super();
@@ -11,6 +11,7 @@ class LoginScreen extends Component{
         this.state = {
             username: "",
             password: "",
+            confirmPassword: "",
             message: null,
         }
     }
@@ -27,6 +28,7 @@ class LoginScreen extends Component{
         this.setState({
             username: event.target.value,
             password: this.state.password,
+            confirmPassword: this.state.confirmPassword,
             message: this.state.message
         });
     }
@@ -35,6 +37,16 @@ class LoginScreen extends Component{
         this.setState({
             username: this.state.username,
             password: event.target.value,
+            confirmPassword: this.state.confirmPassword,
+            message: this.state.message
+        });
+    }
+
+    handleConfirmPasswordChange = (event) => {
+        this.setState({
+            username: this.state.username,
+            password: this.state.password,
+            confirmPassword: event.target.value,
             message: this.state.message
         });
     }
@@ -43,21 +55,25 @@ class LoginScreen extends Component{
         this.setState({
             username: this.state.username,
             password: this.state.password,
+            confirmPassword: this.state.confirmPassword,
             message: message
         });
     }
 
-    attemptLogin = (event) => {
-        if(event)
-            event.preventDefault();
-
-        authService.login({username:this.state.username, password:this.state.password}).then(data => {
-            if (data.isAuthenticated){
-                this.context.setAuth(data.user, data.isAuthenticated);
-                this.props.history.push("/");
+    attemptRegister = (event) => {
+        event.preventDefault();
+        authService.register({username:this.state.username, password:this.state.password}).then(data => {
+            if(!data.message.msgError){
+                this.setMessage(data.message.msgBody);
+                authService.login({username:this.state.username, password:this.state.password}).then(data => {
+                    if (data.isAuthenticated){
+                        this.context.setAuth(data.user, data.isAuthenticated);
+                        this.props.history.push("/");
+                    }
+                });
             }
             else {
-                this.setMessage("Incorrect Login Information");
+                this.setMessage(data.message.msgBody);
             }
         });
     }
@@ -65,7 +81,7 @@ class LoginScreen extends Component{
     render(){
         let buttonDisabled = false;
         let buttonClass = "btn btn-success";
-        if (this.state.username.trim()=== "" || this.state.password.trim() === "" || this.state.password.trim().length < 4){
+        if (this.state.username.trim()=== "" || this.state.password.trim() === "" || this.state.password.trim().length < 4 || this.state.password !== this.state.confirmPassword){
             buttonDisabled=true;
             buttonClass += " disabled";
         }
@@ -81,19 +97,22 @@ class LoginScreen extends Component{
                     </div>
                     <div className="container row" style={{position:"absolute", left:"20%", maxWidth:"65%" , marginTop:"10pt"}}>
                         <div className="panel-body">
-                            <form onSubmit={this.attemptLogin}>
+                            <form>
                                 <div className="form-group">
                                     <label htmlFor="username">Email:</label>
                                     <input type="email" className="form-control" name="username" placeholder="Email" value={this.state.username} onChange={this.handleUsernameChange}/>
                                 </div>
                                 <div className="form-group">
                                     <label htmlFor="password">Password:</label>
-                                    <input type="password" className="form-control" name="username" placeholder="Password" value={this.state.password} onChange={this.handlePasswordChange}/>
+                                    <input type="password" className="form-control" name="password" placeholder="Password" value={this.state.password} onChange={this.handlePasswordChange}/>
+                                </div>
+                                <div className="form-group">
+                                    <label htmlFor="confirmPassword">Confirm Password:</label>
+                                    <input type="password" className="form-control" name="confirmPassword" placeholder="Confirm Password" value={this.state.confirmPassword} onChange={this.handleConfirmPasswordChange}/>
                                 </div>
                                 <div className="row" style={{position:"absolute", left:"34pt", marginTop:"10pt"}}>
-                                    <button type="submit" disabled={buttonDisabled} className={buttonClass}>Log In</button>
-                                    <button type="button" className="btn btn-secondary" onClick={() => this.props.history.push("/register")} style={{marginLeft:"3pt"}}>Register</button>
-                                    <button type="button" className="btn btn-secondary" onClick={() => this.props.history.push("/forgot")} style={{marginLeft:"7pt", marginTop:"3pt"}}>Forgot Password</button>
+                                    <button type="button" disabled={buttonDisabled} className={buttonClass} onClick={this.attemptRegister} style={{marginLeft:"3pt"}}>Register</button>
+                                    <button type="button" className="btn btn-secondary" onClick={() => this.props.history.push("/login")} style={{marginLeft:"3pt"}}>Back</button>
                                 </div>
                             </form>
                             <div style={{position:"absolute", top:"175%", left:"12pt"}}>
@@ -107,4 +126,4 @@ class LoginScreen extends Component{
     }
 }
 
-export default LoginScreen;
+export default RegisterScreen;

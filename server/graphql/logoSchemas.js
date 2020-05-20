@@ -12,6 +12,7 @@ var GraphQLFloat = require('graphql').GraphQLFloat;
 var GraphQLDate = require('graphql-date');
 var LogoModel = require('../models/Logo');
 var UserModel = require('../models/User');
+const bcrypt = require('bcrypt');
 
 var logoElementType = new GraphQLObjectType({
     name: 'logoElement',
@@ -154,6 +155,9 @@ var userType = new GraphQLObjectType({
     name: "userType",
     fields: function () {
         return {
+            _id: {
+                type: GraphQLString
+            },
             username: {
                 name: "username",
                 type: GraphQLString
@@ -161,6 +165,14 @@ var userType = new GraphQLObjectType({
             password: {
                 name: "password",
                 type: GraphQLString
+            },
+            resetPasswordToken: {
+                name: "resetPasswordToken",
+                type: GraphQLString
+            },
+            resetPasswordExpires: {
+                name: "resetPasswordExpires",
+                type: GraphQLDate
             }
         }
     }
@@ -180,20 +192,20 @@ var queryType = new GraphQLObjectType({
                     return users
                 }
             },
-            getUser: {
+            getUserByToken: {
                 type: userType,
                 args: {
-                    username : {
-                        name : "username",
+                    resetPasswordToken : {
+                        name : "resetPasswordToken",
                         type : GraphQLString
                     }
                 },
                 resolve: function (root, params) {
-                    const user = UserModel.findOne({ username: params.username }).exec()
+                    const user = UserModel.findOne({ resetPasswordToken: params.resetPasswordToken }).exec()
                     if (!user){
-                        throw new Error('Error')
+                        return null;
                     }
-                    return user
+                    return user;
                 }
             },
             getAllLogos: {
@@ -245,6 +257,30 @@ var mutation = new GraphQLObjectType({
     name: 'Mutation',
     fields: function () {
         return {
+            changeUserPassword:{
+                type: userType,
+                args: {
+                    id : {
+                        name: 'id',
+                        type: new GraphQLNonNull(GraphQLString)
+                    },
+                    password : {
+                        type: new GraphQLNonNull(GraphQLString)
+                    }
+                },
+                resolve: function (root, params) {
+                    let pass = params.password;
+                    bcrypt.hash(pass, 10, (err, hashedPassword) => {
+                        if (err){
+                            return next(err);
+                        }
+                        return UserModel.findByIdAndUpdate(params.id, {password: hashedPassword, resetPasswordToken: null, resetPasswordExpires: null}, 
+                            function (err) {
+                                if (err) return next(err);
+                            });
+                    });
+                }
+            },
             addLogo: {
                 type: logoType,
                 args: {
@@ -360,6 +396,16 @@ var mutation = new GraphQLObjectType({
                 type: deleteInfo,
                 resolve: function () {
                     const details = LogoModel.deleteMany({}, {});
+                    if (!details) {
+                        throw new Error('Error')
+                    }
+                    return details
+                }
+            },
+            removeAllUsers: { 
+                type: deleteInfo,
+                resolve: function () {
+                    const details = UserModel.deleteMany({}, {});
                     if (!details) {
                         throw new Error('Error')
                     }

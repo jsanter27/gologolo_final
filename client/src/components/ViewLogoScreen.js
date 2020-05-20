@@ -8,7 +8,7 @@ import { Logo } from '../classes/Logo';
 import { AuthContext } from '../context/AuthContext';
 
 const GET_LOGO = gql`
-    query logo($logoId: String) {
+    query getLogoByID($logoId: String) {
         getLogoByID(id: $logoId){
             _id
             user
