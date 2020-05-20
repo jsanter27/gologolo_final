@@ -814,7 +814,7 @@ class EditLogoScreen extends Component {
         });
     }
 
-    handleCancel = () => {
+    handleCancel = (refetch) => {
         let newLogo = new Logo(
             this.state.logo.name,
             this.state.logo.length,
@@ -840,7 +840,10 @@ class EditLogoScreen extends Component {
             focusedElement: this.state.focusedElement,
             initialized: this.state.initialized,
             oldElements: this.state.oldElements
-        }, () => this.props.history.push("/view/"+this.props.match.params.id));
+        }, () => {
+            refetch();
+            this.props.history.push("/view/"+this.props.match.params.id);
+        });
     }
 
     renderEditOptions = () => {
@@ -893,7 +896,7 @@ class EditLogoScreen extends Component {
 
         return (
             /*SKIP PROPERTY ALLOWS THE LOGO TO ONLY BE QUERIED ONCE TO AVOID THE PAGE RELOADING REPEATEDLY*/
-            <Query skip={this.state.initialized} fetchPolicy={'network-only'} pollInterval={250} query={GET_LOGO} variables={{ logoId: this.props.match.params.id }}>
+            <Query skip={this.state.initialized} fetchPolicy={'no-cache'} query={GET_LOGO} variables={{ logoId: this.props.match.params.id }}>
                 {({ loading, error, data }) => {
                     if (loading) return 'Loading...';
                     if (error) return `Error! ${error.message}`;
@@ -1102,7 +1105,7 @@ class EditLogoScreen extends Component {
                                                     </div>
                                                     <div className="form-group" style={{maxWidth:"15vw", textAlign:"center", marginTop:"5pt"}}>
                                                         <button type="submit" disabled={buttonDisabled} className={buttonClass} style={{marginRight:"3pt"}}>Save</button>
-                                                        <button type="button" className="btn btn-danger" onClick={this.handleCancel}>Cancel</button>
+                                                        <button type="button" className="btn btn-danger" onClick={() => this.props.history.push("/view/"+this.props.match.params.id)}>Cancel</button>
                                                         <div style={{overflowWrap:"break-word"}}>
                                                             <label htmlFor="buttonError" style={{marginLeft:"3pt"}}>{buttonDisabled ? "Error: Empty Logo Name" : ""}</label>
                                                         </div>

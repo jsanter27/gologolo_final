@@ -57,11 +57,10 @@ class ViewLogoScreen extends Component {
 
     render() {
         return (
-            <Query fetchPolicy={'network-only'} pollInterval={250} query={GET_LOGO} variables={{ logoId: this.props.match.params.id }}>
+            <Query fetchPolicy={'no-cache'} query={GET_LOGO} variables={{ logoId: this.props.match.params.id }}>
                 {({ loading, error, data }) => {
                     if (loading) return 'Loading...';
                     if (error) return `Error! ${error.message}`;
-
                     return (
                         <div className="container">
                             <div style={{position:"absolute", left:((window.screen.width/2)-(data.getLogoByID.width/2)).toString()+"px"}}>
