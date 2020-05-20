@@ -378,6 +378,37 @@ class EditLogoScreen extends Component {
         })
     }
 
+    handleImageError = (index) => {
+        let newElements = this.state.logo.elements.slice();
+        newElements.splice(index, 1);
+        let newLogo = new Logo(
+            this.state.logo.name,
+            this.state.logo.length,
+            this.state.logo.width,
+            newElements,
+            this.state.logo.backgroundColor,
+            this.state.logo.borderColor,
+            this.state.logo.borderRadius,
+            this.state.logo.borderThickness,
+            this.state.logo.padding,
+            this.state.logo.margin
+        )
+        this.setState({
+            id : this.state.id,
+            user : this.state.user,
+            logo: newLogo,
+            addText: this.state.addText,
+            editText: this.state.editText,
+            editColor: this.state.editColor,
+            editFontSize: this.state.editFontSize,
+            addURL: this.state.addURL,
+            editURL: this.state.editURL,
+            focusedElement: null,
+            initialized: this.state.initialized,
+            oldElements: this.state.oldElements
+        })
+    }
+
     handleRemoveElement = () => {
         let newElements = this.state.logo.elements.slice();
         newElements.splice(this.state.focusedElement, 1);
@@ -1125,6 +1156,7 @@ class EditLogoScreen extends Component {
                                                 changeImageSize={this.handleChangeImageSize}
                                                 history={this.props.history}
                                                 match={this.props.match}
+                                                imageError={this.handleImageError}
                                             />
                                         </div>
                                     </div>

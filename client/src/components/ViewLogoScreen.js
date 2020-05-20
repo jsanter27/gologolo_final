@@ -84,6 +84,7 @@ class ViewLogoScreen extends Component {
                                             canExport={true}
                                             history={this.props.history}
                                             match={this.props.match}
+                                            imageError={() => {}}
                                         />
                                     </div>
                                 </div>

@@ -2,15 +2,16 @@ import React, { Component } from 'react';
 import { LogoElementDefaults } from './GoLogoLoConstants';
 import { Rnd } from 'react-rnd';
 import * as html2canvas from 'html2canvas';
+import { saveAs } from 'file-saver';
 
 // THIS IS HOW WE DISPLAY THE LOGO, IN THIS COMPONENT
 class LogoWorkspace extends Component {
 
-    exportLogo = () => {
+    exportLogo = (name) => {
         const logo = this.logoDiv;
         html2canvas(logo).then((canvas) => {
             const imgURL = canvas.toDataURL("image/png");
-            window.open(imgURL);
+            saveAs(imgURL, name+'.png');
         });
     }
 
@@ -22,7 +23,7 @@ class LogoWorkspace extends Component {
                 borderColor: this.props.logo.borderColor,
                 borderRadius: this.props.logo.borderRadius.toString() + "pt",
                 borderWidth: this.props.logo.borderThickness.toString() + "pt",
-                padding: "0pt",
+                padding: this.props.logo.padding,
                 position: this.props.position,
                 top: "35pt",
                 width: this.props.logo.width.toString() + "px",
@@ -46,7 +47,7 @@ class LogoWorkspace extends Component {
                 <div className="row">
                     <h2>{this.props.logo.name}</h2>
                     <button type="button" className="btn btn-warning" style={{marginTop:"3pt", position:"absolute", 
-                    left:(this.props.logo.width-150).toString() + "px" , display:displayExport}} onClick={this.exportLogo}>Export</button>
+                    left:(this.props.logo.width-150).toString() + "px" , display:displayExport}} onClick={() => this.exportLogo(this.props.logo.name)}>Export</button>
                     <button type="button" className="btn btn-secondary" style={{marginTop:"3pt", position:"absolute", 
                     left:(this.props.logo.width-75).toString() + "px"}} onClick={() => this.props.history.push("/")}>Home</button>
                 </div>
@@ -94,7 +95,7 @@ class LogoWorkspace extends Component {
                             onResize={(event, direction, ref, delta, position) => this.props.changeImageSize(index, ref.offsetWidth, ref.offsetHeight)}
                             key={index}>
                                 <img alt="" src={element.url} height={element.length.toString()+"px"} 
-                                width={element.width.toString()+"px"} onClick={() => this.props.canEdit ? this.props.changeFocusedElement(index) : {}} />
+                                width={element.width.toString()+"px"} onClick={() => this.props.canEdit ? this.props.changeFocusedElement(index) : {}} onError={()=>this.props.imageError(index)} />
                             </Rnd>
                         )
                         ))}
