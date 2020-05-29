@@ -1,4 +1,4 @@
-# CSE 316 Project 3
+# goLogoLo
 
 Created by Justin Santer
 
